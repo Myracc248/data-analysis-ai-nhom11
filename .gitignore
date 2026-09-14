@@ -1,0 +1,28 @@
+# 1. Bỏ qua các file dữ liệu (Data files)
+*.csv
+*.xlsx
+*.xls
+*.json
+*.tsv
+*.parquet
+data/
+dataset/
+
+# 2. Bỏ qua các thư mục môi trường ảo (Virtual Environments)
+venv/
+env/
+.env
+.venv/
+
+# 3. Bỏ qua file rác của Jupyter Notebook
+.ipynb_checkpoints/
+
+# 4. Bỏ qua file rác và bộ nhớ đệm của Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 5. Bỏ qua file rác của hệ điều hành (Tùy chọn)
+.DS_Store
+Thumbs.db

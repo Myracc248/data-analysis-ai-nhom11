@@ -13,7 +13,7 @@ Dự án thuộc môn học nhập môn Phân tích Dữ liệu & AI, tập trun
 ---
 
 ## 🎯 Bước 0: Định nghĩa Bài toán (Define the question)
-* **Mục tiêu phân tích (Analytical Goal):** Phân tích các yếu tố ảnh hưởng đến doanh thu và mức độ hài lòng của khách hàng đối với các mặt hàng thiết bị điện tử, từ đó xác định các xu hướng và nhóm khách hàng có hành vi mua sắm nổi bật.
+* **Mục tiêu phân tích (Analytical Goal):** Phân tích doanh thu, mức độ hài lòng và hành vi mua sắm của khách hàng đối với các sản phẩm trên hệ thống bán lẻ và thương mại điện tử, từ đó xác định các xu hướng và nhóm khách hàng nổi bật.
 * **Đối tượng phục vụ (For Whom):** Ban giám đốc / Giám đốc sản phẩm của hệ thống bán lẻ để tối ưu hóa chiến lược giá và nhập hàng.
 * **Thước đo thành công (Success Metric):** Khám phá được ít nhất 3 nhóm khách hàng có hành vi mua sắm nổi bật hoặc 3 yếu tố có mối quan hệ đáng chú ý với mức độ hài lòng (Rating) và doanh thu (Revenue) thông qua phân tích và trực quan hóa dữ liệu.
 * **Biến mục tiêu (Target Variable):** `Rating` (Điểm đánh giá). Biến phân tích phụ: `Revenue` (Doanh thu).
@@ -32,7 +32,7 @@ Dự án thuộc môn học nhập môn Phân tích Dữ liệu & AI, tập trun
 | :--- | :--- |
 | **`Product_ID`** | **Khóa chính (Primary Key)** - Định dạng chuỗi hoặc số (VD: SP001, SP002...). |
 | `Product_Name` | Tên sản phẩm. |
-| `Category` | Danh mục sản phẩm (VD: Laptop, Điện thoại, Chuột, Bàn phím...). |
+| `Category` | Danh mục sản phẩm. |
 | `Brand` | Thương hiệu. |
 | `Original_Price` | Giá gốc của sản phẩm. |
 | `Discount_Price` | Giá sau khi đã áp dụng khuyến mãi. |

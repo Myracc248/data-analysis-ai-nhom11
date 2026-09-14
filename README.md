@@ -15,7 +15,7 @@ Dự án thuộc môn học nhập môn Phân tích Dữ liệu & AI, tập trun
 ## 🎯 Bước 0: Định nghĩa Bài toán (Define the question)
 * **Mục tiêu phân tích (Analytical Goal):** Phân tích các yếu tố ảnh hưởng đến doanh thu và mức độ hài lòng của khách hàng đối với các mặt hàng thiết bị điện tử, từ đó xác định các xu hướng và nhóm khách hàng có hành vi mua sắm nổi bật.
 * **Đối tượng phục vụ (For Whom):** Ban giám đốc / Giám đốc sản phẩm của hệ thống bán lẻ để tối ưu hóa chiến lược giá và nhập hàng.
-* **Thước đo thành công (Success Metric):** Khám phá được ít nhất 3 tập khách hàng hoặc 3 yếu tố quan trọng nhất quyết định việc mua hàng thông qua biểu đồ trực quan.
+* **Thước đo thành công (Success Metric):** Khám phá được ít nhất 3 nhóm khách hàng có hành vi mua sắm nổi bật **hoặc 3 yếu tố có mối quan hệ đáng chú ý với mức độ hài lòng (Rating) và doanh thu (Revenue) thông qua phân tích và trực quan hóa dữ liệu.
 * **Biến mục tiêu (Target Variable):** `Rating` (Điểm đánh giá). Biến phân tích phụ: `Revenue` (Doanh thu).
 > **Lưu ý:** Missing values tại biến mục tiêu sẽ được đánh giá riêng. Việc loại bỏ bản ghi (dropna) chỉ được thực hiện khi có lý do phân tích phù hợp; các biến còn lại sẽ áp dụng chiến lược điền khuyết (imputation) tương ứng với kiểu dữ liệu. Nghiêm cấm xóa dòng tùy tiện.
 

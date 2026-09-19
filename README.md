@@ -36,12 +36,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 
 ### Yêu cầu
-- [ ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
-- [ ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
-- [ ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
-- [ ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
-- [ ] Lưu dữ liệu gốc vào `data/raw/`.
-- [ ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
+- [x ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
+- [x ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
+- [x ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
+- [x ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
+- [x ] Lưu dữ liệu gốc vào `data/raw/`.
+- [x ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
 
 ---
 

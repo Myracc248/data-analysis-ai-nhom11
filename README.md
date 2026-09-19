@@ -36,12 +36,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 
 ### Yêu cầu
-- [ ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
-- [ ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
-- [ ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
-- [ ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
-- [ ] Lưu dữ liệu gốc vào `data/raw/`.
-- [ ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
+- [x ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
+- [x ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
+- [x ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
+- [x ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
+- [x ] Lưu dữ liệu gốc vào `data/raw/`.
+- [x ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
 
 ---
 
@@ -50,12 +50,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 
 ### Yêu cầu
 Dùng thư viện Python (`Faker`, `numpy`) và LLM/Ollama để giả lập dữ liệu giao dịch và đánh giá khách hàng.
-- [ ] Tạo dữ liệu giao dịch.
-- [ ] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
-- [ ] Tạo dữ liệu khách hàng và thời gian giao dịch.
-- [ ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
-- [ ] Tạo `Quantity` và tính `Revenue`.
-- [ ] Lưu Dynamic Data vào `data/processed/`.
+- [ x] Tạo dữ liệu giao dịch.
+- [ x] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
+- [x ] Tạo dữ liệu khách hàng và thời gian giao dịch.
+- [x ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
+- [x ] Tạo `Quantity` và tính `Revenue`.
+- [x ] Lưu Dynamic Data vào `data/processed/`.
 
 ---
 

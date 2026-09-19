@@ -50,12 +50,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 
 ### Yêu cầu
 Dùng thư viện Python (`Faker`, `numpy`) và LLM/Ollama để giả lập dữ liệu giao dịch và đánh giá khách hàng.
-- [ ] Tạo dữ liệu giao dịch.
-- [ ] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
-- [ ] Tạo dữ liệu khách hàng và thời gian giao dịch.
-- [ ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
-- [ ] Tạo `Quantity` và tính `Revenue`.
-- [ ] Lưu Dynamic Data vào `data/processed/`.
+- [ x] Tạo dữ liệu giao dịch.
+- [ x] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
+- [x ] Tạo dữ liệu khách hàng và thời gian giao dịch.
+- [x ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
+- [x ] Tạo `Quantity` và tính `Revenue`.
+- [x ] Lưu Dynamic Data vào `data/processed/`.
 
 ---
 
@@ -230,7 +230,7 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
     │   └── final/                  ← Dataset đã tích hợp, sẵn sàng cho EDA/ML
     │
     ├── notebooks/
-    │   ├── 01_static_data.ipynb
+    │  
     │   ├── 02_dynamic_data.ipynb
     │   ├── 03_data_integration.ipynb
     │   ├── 04_database.ipynb

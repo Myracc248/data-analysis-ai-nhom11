@@ -230,7 +230,7 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
     │   └── final/                  ← Dataset đã tích hợp, sẵn sàng cho EDA/ML
     │
     ├── notebooks/
-    │  
+    │   ├── 01_static_data.ipynb
     │   ├── 02_dynamic_data.ipynb
     │   ├── 03_data_integration.ipynb
     │   ├── 04_database.ipynb

@@ -36,12 +36,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 
 ### Yêu cầu
-- [x ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
-- [x ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
-- [x ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
-- [x ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
-- [x ] Lưu dữ liệu gốc vào `data/raw/`.
-- [x ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
+- [ ] Thu thập dữ liệu từ **ít nhất 2 nguồn khác nhau**.
+- [ ] Mỗi nguồn dữ liệu đạt **tối thiểu 300 records**.
+- [ ] Chuẩn hóa tên cột và kiểu dữ liệu giữa các nguồn.
+- [ ] Kiểm tra dữ liệu trước khi sử dụng `pd.concat()`.
+- [ ] Lưu dữ liệu gốc vào `data/raw/`.
+- [ ] Lưu dữ liệu đã chuẩn hóa vào `data/processed/`.
 
 ---
 
@@ -50,12 +50,12 @@ Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trun
 
 ### Yêu cầu
 Dùng thư viện Python (`Faker`, `numpy`) và LLM/Ollama để giả lập dữ liệu giao dịch và đánh giá khách hàng.
-- [ x] Tạo dữ liệu giao dịch.
-- [ x] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
-- [x ] Tạo dữ liệu khách hàng và thời gian giao dịch.
-- [x ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
-- [x ] Tạo `Quantity` và tính `Revenue`.
-- [x ] Lưu Dynamic Data vào `data/processed/`.
+- [ ] Tạo dữ liệu giao dịch.
+- [ ] `Product_ID` phải được lấy từ danh sách `Product_ID` của dữ liệu Static.
+- [ ] Tạo dữ liệu khách hàng và thời gian giao dịch.
+- [ ] Tạo `Rating` từ 1 đến 5 và sinh `Customer_Review` tương ứng.
+- [ ] Tạo `Quantity` và tính `Revenue`.
+- [ ] Lưu Dynamic Data vào `data/processed/`.
 
 ---
 
@@ -70,7 +70,7 @@ Dùng thư viện Python (`Faker`, `numpy`) và LLM/Ollama để giả lập d�
 ### 3.2 Horizontal Merging — `pd.merge()`
 - [ ] Merge `Unified Static Master Table` với Dynamic Transaction Data qua khóa `Product_ID`.
 - [ ] Lựa chọn loại JOIN phù hợp (`Left Join`, `Inner Join`...) và giải thích trong báo cáo.
-- [ ] Kiểm tra dữ liệu sau khi Merge.
+- [ ] Kiểm tra dữ liệu sau khi Merge (tránh trùng lặp ID làm nhân bản giao dịch).
 - [ ] Lưu dataset tích hợp vào `data/final/`.
 
 ---
@@ -120,6 +120,9 @@ Dùng thư viện Python (`Faker`, `numpy`) và LLM/Ollama để giả lập d�
 # 🟩 STAGE 2 — Model Architecture & Evaluation
 Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ Stage 1 để xây dựng, đánh giá và triển khai các mô hình Machine Learning.
 
+> **⚠️ QUY TẮC QUAN TRỌNG CHO STAGE 2:** 
+> Tất cả các mô hình sau khi huấn luyện (train) thành công **BẮT BUỘC** phải được lưu (export) thành file `.pkl` bằng `joblib` hoặc `pickle`. Các file model được lưu trong thư mục `models/` để Web UI có thể trực tiếp load và thực hiện dự đoán, không train lại mô hình trên UI.
+
 ## ⚙️ Bước 6: Feature Engineering & Preprocessing
 **Đảm nhiệm:** Phan Chí Thanh (Kéo data từ DB) & Cả nhóm
 - [ ] Kéo dữ liệu sạch từ CSDL.
@@ -168,7 +171,7 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
 - [ ] Đánh giá bằng MSE, RMSE, R² Score.
 - [ ] Vẽ Actual vs Predicted và Residual Plot.
 - [ ] Phân tích các lỗi và pattern trong dự đoán.
-- [ ] **Lưu mô hình Regression phù hợp thành `regression.pkl`.**
+- [ ] **Lưu mô hình Regression phù hợp thành `regression_model.pkl`.**
 
 ---
 
@@ -181,7 +184,7 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
 - [ ] Chạy và so sánh `Logistic Regression` và `Decision Tree Classifier`.
 - [ ] Đánh giá bằng Confusion Matrix, Accuracy, Precision, Recall, F1-Score.
 - [ ] Kiểm tra và xử lý Class Imbalance nếu cần.
-- [ ] **Lưu mô hình Classification phù hợp thành `classification.pkl`.**
+- [ ] **Lưu mô hình Classification phù hợp thành `classification_model.pkl`.**
 
 ---
 
@@ -189,16 +192,13 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
 **Đảm nhiệm:** Hà Xuân Khoa (Nhóm trưởng)
 **Công cụ:** Streamlit
 
-### Quy tắc Deployment
-> **File `06_machine_learning.ipynb` là nơi thực hiện việc huấn luyện (train). Sau khi train thành công, BẮT BUỘC phải export cả model lẫn transformer thành file `.pkl`. File `app.py` (Web UI) CHỈ dùng để load các model/transformer đã được lưu sẵn này, tuyệt đối không train lại model trong giao diện.**
-
 ### Luồng xử lý UI
 
     User Input
         ↓
     Preprocessing
         ↓
-    Loaded Model/Transformer
+    Loaded Model/Transformer (từ thư mục models/)
         ↓
     Model.predict()
         ↓
@@ -229,26 +229,25 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
     │   ├── processed/              ← Dữ liệu đã chuẩn hóa / tạo
     │   └── final/                  ← Dataset đã tích hợp, sẵn sàng cho EDA/ML
     │
-    ├── notebooks/
+    ├── notebooks/                  ← Toàn bộ quá trình thực hiện của từng bước
     │   ├── 01_static_data.ipynb
     │   ├── 02_dynamic_data.ipynb
     │   ├── 03_data_integration.ipynb
     │   ├── 04_database.ipynb
     │   ├── 05_cleaning_eda.ipynb
-    │   └── 06_machine_learning.ipynb ← Nơi thực hiện train model và export ra .pkl
+    │   └── 06_machine_learning.ipynb
     │
     ├── src/
-    │   ├── data_generation/        ← Code tạo dữ liệu động
-    │   ├── integration/            ← Code tích hợp dữ liệu
-    │   ├── database/               ← Code kết nối / truy xuất CSDL
-    │   └── models/                 ← Chứa các model và transformer đã train (.pkl)
-    │       ├── scaler.pkl
-    │       ├── pca.pkl
-    │       ├── kmeans.pkl
-    │       ├── regression.pkl
-    │       └── classification.pkl
+    │   └── data_generation/        ← Code script độc lập phục vụ giả lập dữ liệu
+    │       └── generate_dynamic.py
     │
-    ├── app.py                      ← Streamlit Web UI (Chỉ load file .pkl để dự đoán)
+    ├── models/                     ← Chứa các model và transformer đã train (.pkl)
+    │   ├── pca.pkl
+    │   ├── kmeans.pkl
+    │   ├── regression_model.pkl
+    │   └── classification_model.pkl
+    │
+    ├── app.py                      ← Streamlit Web UI (Load trực tiếp model từ thư mục models/)
     │
     └── report/
         └── Bao_cao_nhom11.docx     ← Báo cáo cuối
@@ -288,7 +287,7 @@ Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ 
     └──────────────────┬──────────────────────┘
                        │
                        ▼
-             src/models/*.pkl
+                  models/*.pkl
                        │
                        ▼
                   Streamlit app (app.py)

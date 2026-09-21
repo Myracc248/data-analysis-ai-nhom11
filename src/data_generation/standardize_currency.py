@@ -1,98 +1,114 @@
+from pathlib import Path
 import pandas as pd
 
-# =========================
-# 1. CẤU HÌNH
-# =========================
-
-GBP_TO_VND = 34758  # Tỷ giá cố định ngày 18/09/2026
-
-TESCO_PATH = "data/processed/tesco-grocery-uk(1).csv"
-TIKI_PATH = "data/processed/vietnamese_tiki_products_backpacks_suitcases(1).csv"
-
 
 # =========================
-# 2. ĐỌC DỮ LIỆU
+# CẤU HÌNH
 # =========================
 
-tesco = pd.read_csv(TESCO_PATH)
-tiki = pd.read_csv(TIKI_PATH)
+GBP_TO_VND = 34758
+
+ROOT = Path(__file__).resolve().parents[2]
+
+TESCO_INPUT = ROOT / "data" / "processed" / "tesco-grocery-uk.csv"
+TIKI_INPUT = ROOT / "data" / "processed" / "vietnamese_tiki_products_backpacks_suitcases.csv"
+
+TESCO_OUTPUT = ROOT / "data" / "processed" / "tesco_products_vnd.csv"
+TIKI_OUTPUT = ROOT / "data" / "processed" / "tiki_products_vnd.csv"
 
 
 # =========================
-# 3. CHUẨN HÓA TESCO
-# GBP -> VND
+# ĐỌC DỮ LIỆU
 # =========================
 
-tesco["Source_Currency"] = "GBP"
+tesco = pd.read_csv(TESCO_INPUT)
+tiki = pd.read_csv(TIKI_INPUT)
+
+
+# =========================
+# TESCO: GBP -> VND
+# =========================
+
+tesco["Source_Currency"] = tesco["currency"].fillna("GBP")
 
 tesco["Original_Price_VND"] = (
-    tesco["Original_Price"] * GBP_TO_VND
+    pd.to_numeric(tesco["Original_Price"], errors="coerce")
+    * GBP_TO_VND
 ).round()
 
 tesco["Discount_Price_VND"] = (
-    tesco["Discount_Price"] * GBP_TO_VND
+    pd.to_numeric(tesco["Discount_Price"], errors="coerce")
+    * GBP_TO_VND
 ).round()
 
 
 # =========================
-# 4. CHUẨN HÓA TIKI
-# Giá gốc đã là VND
+# TIKI: VND
 # =========================
 
 tiki["Source_Currency"] = "VND"
 
-tiki["Original_Price_VND"] = tiki["Original_Price"]
-tiki["Discount_Price_VND"] = tiki["Discount_Price"]
+tiki["Original_Price_VND"] = pd.to_numeric(
+    tiki["Original_Price"],
+    errors="coerce"
+).round()
+
+tiki["Discount_Price_VND"] = pd.to_numeric(
+    tiki["Discount_Price"],
+    errors="coerce"
+).round()
 
 
 # =========================
-# 5. KIỂM TRA
+# VALIDATION
 # =========================
 
-print("=== TESCO ===")
-print(
-    tesco[
-        [
-            "Product_ID",
-            "Original_Price",
-            "Original_Price_VND",
-            "Source_Currency"
-        ]
-    ].head()
-)
+assert "Product_ID" in tesco.columns
+assert "Product_ID" in tiki.columns
 
-print("\nSố sản phẩm Tesco thiếu giá:")
-print(tesco["Discount_Price_VND"].isna().sum())
+assert "Discount_Price_VND" in tesco.columns
+assert "Discount_Price_VND" in tiki.columns
 
-
-print("\n=== TIKI ===")
-print(
-    tiki[
-        [
-            "Product_ID",
-            "Original_Price",
-            "Original_Price_VND",
-            "Source_Currency"
-        ]
-    ].head()
-)
+assert tiki["Discount_Price_VND"].notna().all()
 
 
 # =========================
-# 6. LƯU FILE MỚI
-# Không ghi đè dữ liệu ban đầu
+# LƯU FILE
 # =========================
 
 tesco.to_csv(
-    "data/processed/tesco_products_vnd.csv",
+    TESCO_OUTPUT,
     index=False,
     encoding="utf-8-sig"
 )
 
 tiki.to_csv(
-    "data/processed/tiki_products_vnd.csv",
+    TIKI_OUTPUT,
     index=False,
     encoding="utf-8-sig"
 )
 
-print("\nChuẩn hóa tiền tệ hoàn tất.")
+
+# =========================
+# SUMMARY
+# =========================
+
+print("=== TESCO ===")
+print("Rows:", len(tesco))
+print(
+    "Missing Discount_Price_VND:",
+    tesco["Discount_Price_VND"].isna().sum()
+)
+
+print("\n=== TIKI ===")
+print("Rows:", len(tiki))
+print(
+    "Missing Discount_Price_VND:",
+    tiki["Discount_Price_VND"].isna().sum()
+)
+
+print("\nSaved:")
+print(TESCO_OUTPUT)
+print(TIKI_OUTPUT)
+
+print("\nSTANDARDIZE CURRENCY PASSED")

@@ -77,18 +77,21 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ---
 
-## 🔗 Bước 3: Tích hợp Dữ liệu (Data Integration)
+## Bước 3: Tích hợp Dữ liệu (Data Integration)
+[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#-b%C6%B0%E1%BB%9Bc-3-t%C3%ADch-h%E1%BB%A3p-d%E1%BB%AF-li%E1%BB%87u-data-integration)
 **Đảm nhiệm:** Hà Xuân Khoa (Nhóm trưởng)
 
 > **Nguyên tắc cốt lõi:** Bước này CHỈ thực hiện đồng bộ cấu trúc (Schema Alignment) và gộp bảng. **TUYỆT ĐỐI KHÔNG** tự ý xóa dữ liệu (`dropna`) hay điền khuyết (`fillna`) để giảm Missing Values.
 
 ### 3.1 Vertical Concatenation — `pd.concat()`
+[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#31-vertical-concatenation--pdconcat)
 - [ ] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
 - [ ] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
 - [ ] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
 - [ ] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.
 
 ### 3.2 Horizontal Merging — `pd.merge()`
+[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#32-horizontal-merging--pdmerge)
 - [ ] Merge bảng `Unified Static Master` với `dynamic_transactions.csv`.
 - [ ] Sử dụng **LEFT JOIN** với bảng gốc bên trái là Dynamic Data để bảo toàn 100% giao dịch thực tế.
 - [ ] Kiểm tra số lượng giao dịch trước và sau Merge (đảm bảo không bị nhân bản dòng).

@@ -42,13 +42,13 @@ Phân tích các yếu tố có liên hệ với doanh thu và mức độ hài 
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 
 ### Yêu cầu hành động
-- [ ] Thu thập dữ liệu từ ít nhất 02 nguồn khác nhau (Tesco UK và Tiki VN).
-- [ ] Mỗi nguồn dữ liệu có tối thiểu 300 records.
-- [ ] Chuẩn hóa tên cột.
-- [ ] Chuẩn hóa kiểu dữ liệu.
-- [ ] Hỗ trợ quy đổi tiền tệ sang VND để đồng nhất (Script của Vị trí 2 hỗ trợ).
-- [ ] Lưu dữ liệu nguồn vào `data/raw/`.
-- [ ] Lưu dữ liệu sau chuẩn hóa vào `data/processed/`.
+- [x] Thu thập dữ liệu từ ít nhất 02 nguồn khác nhau (Tesco UK và Tiki VN).
+- [x] Mỗi nguồn dữ liệu có tối thiểu 300 records.
+- [x] Chuẩn hóa tên cột.
+- [x] Chuẩn hóa kiểu dữ liệu.
+- [x] Hỗ trợ quy đổi tiền tệ sang VND để đồng nhất (Script của Vị trí 2 hỗ trợ).
+- [x] Lưu dữ liệu nguồn vào `data/raw/`.
+- [x] Lưu dữ liệu sau chuẩn hóa vào `data/processed/`.
 
 ### 📌 Schema Static Data chuẩn (Hợp đồng dữ liệu)
 Các nguồn Static bắt buộc phải được chuẩn hóa theo bộ thuộc tính cốt lõi sau trước khi mang đi Integration:
@@ -68,12 +68,12 @@ Các nguồn Static bắt buộc phải được chuẩn hóa theo bộ thuộc 
 
 ### Yêu cầu hành động
 Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập dữ liệu giao dịch:
-- [ ] Lấy danh sách `Product_ID` hợp lệ từ dữ liệu Static đã chuẩn hóa.
-- [ ] Sinh thông tin khách hàng (Customer_ID, Gender, Age, City) và thời gian giao dịch.
-- [ ] Tạo `Quantity` và tính toán `Revenue` hợp lý (`Revenue = Quantity * Discount_Price`).
-- [ ] Tạo `Rating` (từ 1–5).
-- [ ] Dùng Ollama sinh `Customer_Review` tương ứng với `Rating`.
-- [ ] Lưu Dynamic Data vào `data/processed/dynamic_transactions.csv`.
+- [x] Lấy danh sách `Product_ID` hợp lệ từ dữ liệu Static đã chuẩn hóa.
+- [x] Sinh thông tin khách hàng (Customer_ID, Gender, Age, City) và thời gian giao dịch.
+- [x] Tạo `Quantity` và tính toán `Revenue` hợp lý (`Revenue = Quantity * Discount_Price`).
+- [x] Tạo `Rating` (từ 1–5).
+- [x] Dùng Ollama sinh `Customer_Review` tương ứng với `Rating`.
+- [x] Lưu Dynamic Data vào `data/processed/dynamic_transactions.csv`.
 
 ---
 
@@ -85,17 +85,17 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ### 3.1 Vertical Concatenation — `pd.concat()`
 [↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#31-vertical-concatenation--pdconcat)
-- [ ] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
-- [ ] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
-- [ ] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
-- [ ] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.
+- [x] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
+- [x] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
+- [x] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
+- [x] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.
 
 ### 3.2 Horizontal Merging — `pd.merge()`
 [↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#32-horizontal-merging--pdmerge)
-- [ ] Merge bảng `Unified Static Master` với `dynamic_transactions.csv`.
-- [ ] Sử dụng **LEFT JOIN** với bảng gốc bên trái là Dynamic Data để bảo toàn 100% giao dịch thực tế.
-- [ ] Kiểm tra số lượng giao dịch trước và sau Merge (đảm bảo không bị nhân bản dòng).
-- [ ] Xuất dataset tích hợp cuối cùng vào `data/final/master_dataset.csv`.
+- [x] Merge bảng `Unified Static Master` với `dynamic_transactions.csv`.
+- [x] Sử dụng **LEFT JOIN** với bảng gốc bên trái là Dynamic Data để bảo toàn 100% giao dịch thực tế.
+- [x] Kiểm tra số lượng giao dịch trước và sau Merge (đảm bảo không bị nhân bản dòng).
+- [x] Xuất dataset tích hợp cuối cùng vào `data/final/master_dataset.csv`.
 
 ---
 

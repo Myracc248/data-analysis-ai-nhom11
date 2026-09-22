@@ -83,7 +83,7 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 > **Nguyên tắc cốt lõi:** Bước này CHỈ thực hiện đồng bộ cấu trúc (Schema Alignment) và gộp bảng. **TUYỆT ĐỐI KHÔNG** tự ý xóa dữ liệu (`dropna`) hay điền khuyết (`fillna`) để giảm Missing Values.
 
 ### 3.1 Vertical Concatenation — `pd.concat()`
-- [ ] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `tiki_products_vnd.csv` từ thư mục `processed`).
+- [ ] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
 - [ ] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
 - [ ] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
 - [ ] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.

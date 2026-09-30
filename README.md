@@ -103,11 +103,11 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 **Đảm nhiệm:** Phan Chí Thanh (Vị trí 3)
 
 ### Yêu cầu hành động
-- [ ] Lựa chọn tối thiểu 02 hệ quản trị/công nghệ Database (MongoDB Atlas, Vector DB, hoặc SQL).
-- [ ] Thiết kế cấu trúc lưu trữ phù hợp.
-- [ ] Viết script nạp `master_dataset.csv` vào Database.
-- [ ] Viết script kết nối và truy xuất dữ liệu từ CSDL về Python cho EDA.
-- [ ] Giải thích lý do lựa chọn mô hình lưu trữ trong báo cáo.
+- [x] Lựa chọn tối thiểu 02 hệ quản trị/công nghệ Database (MongoDB Atlas, Vector DB, hoặc SQL).
+- [x] Thiết kế cấu trúc lưu trữ phù hợp.
+- [x] Viết script nạp `master_dataset.csv` vào Database.
+- [x] Viết script kết nối và truy xuất dữ liệu từ CSDL về Python cho EDA.
+- [x] Giải thích lý do lựa chọn mô hình lưu trữ trong báo cáo.
 
 ---
 

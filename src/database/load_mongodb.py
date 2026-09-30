@@ -1,6 +1,5 @@
-from getpass import getpass
 from pathlib import Path
-from urllib.parse import quote_plus
+from urllib.parse import quote
 
 import pandas as pd
 from pymongo import MongoClient, ReplaceOne
@@ -18,8 +17,8 @@ uri_mau = input("Dán chuỗi mongodb+srv (giữ <db_password>): ").strip()
 if "<db_password>" not in uri_mau:
     raise ValueError("Chuỗi kết nối phải giữ nguyên <db_password>")
 
-mat_khau = getpass("Nhập mật khẩu database user: ")
-uri = uri_mau.replace("<db_password>", quote_plus(mat_khau))
+mat_khau = input("Nhập mật khẩu database user: ")
+uri = uri_mau.replace("<db_password>", quote(mat_khau, safe=""))
 
 client = MongoClient(uri, serverSelectionTimeoutMS=15000)
 

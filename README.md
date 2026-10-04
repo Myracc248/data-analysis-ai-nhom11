@@ -115,21 +115,21 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 **Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4) & Nguyễn Vương Quốc Tuấn (Vị trí 5)
 
 ### 5.1 Data Cleaning & Missing Value Strategy
-- [ ] Kiểm tra kích thước, cấu trúc và kiểu dữ liệu.
-- [ ] Đánh giá số lượng và tỷ lệ Missing Values của từng cột.
-- [ ] Trực quan hóa Missing Values bằng thư viện `missingno`.
-- [ ] Phân tích cơ chế thiếu dữ liệu (MCAR / MAR / MNAR).
-- [ ] Lựa chọn phương pháp xử lý Imputation phù hợp (Mean, Median, Mode, Unknown). Giải thích rõ lý do nếu dùng `dropna()`.
-- [ ] So sánh phân phối dữ liệu Before / After Imputation.
-- [ ] Phát hiện Outliers bằng IQR / Z-score và xử lý (Drop/Clip) tùy đặc điểm biến.
+- [x] Kiểm tra kích thước, cấu trúc và kiểu dữ liệu.
+- [x] Đánh giá số lượng và tỷ lệ Missing Values của từng cột.
+- [x] Trực quan hóa Missing Values bằng thư viện `missingno`.
+- [x] Phân tích cơ chế thiếu dữ liệu (MCAR / MAR / MNAR).
+- [x] Lựa chọn phương pháp xử lý Imputation phù hợp (Mean, Median, Mode, Unknown). Giải thích rõ lý do nếu dùng `dropna()`.
+- [x] So sánh phân phối dữ liệu Before / After Imputation.
+- [x] Phát hiện Outliers bằng IQR / Z-score và xử lý (Drop/Clip) tùy đặc điểm biến.
 
 ### 5.2 Exploratory Data Analysis (EDA)
-- [ ] Phân tích Univariate (Thống kê mô tả, phân phối).
-- [ ] Phân tích Bivariate/Multivariate và ma trận tương quan (Correlation Heatmap).
-- [ ] Vẽ tối thiểu **05 biểu đồ** bằng Matplotlib / Seaborn (đầy đủ Title, X/Y labels).
-- [ ] Viết nhận xét/insight giải thích dưới mỗi biểu đồ. Phân biệt rõ Correlation và Causation.
-- [ ] Xác định các yếu tố nổi bật liên quan đến Revenue, Rating, và Customer Segmentation.
-- [ ] Đề xuất Feature cho Stage 2.
+- [x] Phân tích Univariate (Thống kê mô tả, phân phối).
+- [x] Phân tích Bivariate/Multivariate và ma trận tương quan (Correlation Heatmap).
+- [x] Vẽ tối thiểu **05 biểu đồ** bằng Matplotlib / Seaborn (đầy đủ Title, X/Y labels).
+- [x] Viết nhận xét/insight giải thích dưới mỗi biểu đồ. Phân biệt rõ Correlation và Causation.
+- [x] Xác định các yếu tố nổi bật liên quan đến Revenue, Rating, và Customer Segmentation.
+- [x] Đề xuất Feature cho Stage 2.
 
 ---
 

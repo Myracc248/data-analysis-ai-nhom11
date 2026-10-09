@@ -165,12 +165,12 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 **Mục tiêu:** Áp dụng phân tích thành phần chính (PCA) để giảm số chiều dữ liệu nhưng vẫn giữ lại phần lớn lượng thông tin.
 
-- [ ] Chọn các đặc trưng dạng số (numerical features) phù hợp.
-- [ ] **Feature Scaling:** Bắt buộc chuẩn hóa dữ liệu trước khi chạy PCA bằng `StandardScaler` hoặc `MinMaxScaler`.
-- [ ] Áp dụng PCA và tính toán tỷ lệ phương sai giải thích tích lũy (Cumulative Explained Variance).
-- [ ] Chọn số lượng component tối thiểu để giữ lại **85%–95%** phương sai.
-- [ ] **Trực quan hóa:** Vẽ biểu đồ Explained Variance và Scatter plot 2D/3D cho không gian PCA.
-- [ ] Giải thích lý do chọn số lượng component và phân tích kết quả PCA.
+- [x] Chọn các đặc trưng dạng số (numerical features) phù hợp.
+- [x] **Feature Scaling:** Bắt buộc chuẩn hóa dữ liệu trước khi chạy PCA bằng `StandardScaler` hoặc `MinMaxScaler`.
+- [x] Áp dụng PCA và tính toán tỷ lệ phương sai giải thích tích lũy (Cumulative Explained Variance).
+- [x] Chọn số lượng component tối thiểu để giữ lại **85%–95%** phương sai.
+- [x] **Trực quan hóa:** Vẽ biểu đồ Explained Variance và Scatter plot 2D/3D cho không gian PCA.
+- [x] Giải thích lý do chọn số lượng component và phân tích kết quả PCA.
 
 ---
 

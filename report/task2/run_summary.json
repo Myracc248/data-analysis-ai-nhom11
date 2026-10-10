@@ -1,0 +1,51 @@
+{
+  "audit": {
+    "rows": 10000,
+    "columns": 42,
+    "customers": 1988,
+    "missing_by_column": {
+      "avg_rating": 8178,
+      "reviews_count": 8178,
+      "rating_average": 1822,
+      "review_count": 1822,
+      "quantity_sold": 1822,
+      "availability": 8178,
+      "is_for_sale": 8178,
+      "product_type": 8178,
+      "category_2": 8178,
+      "category_3": 8178,
+      "manufacturer": 8178,
+      "current_seller": 1822,
+      "fulfillment_type": 1822,
+      "date_created": 1822,
+      "number_of_images": 1822,
+      "favourite_count": 1822,
+      "has_video": 1822,
+      "avg_rating_num": 10000,
+      "product_static_rating": 1822
+    },
+    "revenue_formula_mismatch": 10,
+    "date_min": "2025-09-21 00:51:38",
+    "date_max": "2026-09-20 23:06:54",
+    "input_sha256": "054d5ac6972012c4b42c9316a6b7879ca0d0c960e5d28f90324ac2646227fb17"
+  },
+  "reference_date": "2026-09-21 00:00:00",
+  "selected_space": "non_PCA",
+  "K": 3,
+  "pca_components": 4,
+  "retained_variance": 0.9999999999999999,
+  "sensitivity": {
+    "features": "4 behavioral + one-hot Gender, City",
+    "dimensions": 16,
+    "K": 3,
+    "ARI_vs_selected_behavioral": 0.9863081995205754,
+    "Silhouette_native": 0.19204053844051994,
+    "note": "Sensitivity only; a different feature definition, not evidence of improvement."
+  },
+  "versions": {
+    "python": "3.14.7",
+    "sklearn": "1.8.0",
+    "numpy": "2.5.3",
+    "pandas": "3.0.5"
+  }
+}

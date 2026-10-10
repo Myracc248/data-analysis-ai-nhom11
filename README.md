@@ -178,11 +178,11 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 **Đảm nhiệm:** Nguyễn Tuấn Duy (Vị trí 2)
 **Mục tiêu:** Áp dụng thuật toán gom cụm K-Means để nhận diện các nhóm khách hàng/sản phẩm/giao dịch nổi bật.
 
-- [ ] **Feature Preparation:** Encode các biến Categorical và Scale các biến Numerical phù hợp cho thuật toán đo khoảng cách.
-- [ ] Xác định số cụm tối ưu ($K$) bằng cả 2 phương pháp: **Elbow Method (WCSS)** và **Silhouette Score**.
-- [ ] **So sánh mô hình:** Chạy và so sánh kết quả K-Means trên tập dữ liệu đã qua PCA vs tập dữ liệu gốc chưa qua PCA (non-PCA).
-- [ ] **Trực quan hóa:** Vẽ Scatter plot 2D/3D tô màu theo cụm.
-- [ ] Map nhãn `Cluster_Label` ngược lại vào primary dataset để phân tích đặc điểm từng cụm.
+- [x] **Feature Preparation:** Encode các biến Categorical và Scale các biến Numerical phù hợp cho thuật toán đo khoảng cách.
+- [x] Xác định số cụm tối ưu ($K$) bằng cả 2 phương pháp: **Elbow Method (WCSS)** và **Silhouette Score**.
+- [x] **So sánh mô hình:** Chạy và so sánh kết quả K-Means trên tập dữ liệu đã qua PCA vs tập dữ liệu gốc chưa qua PCA (non-PCA).
+- [x] **Trực quan hóa:** Vẽ Scatter plot 2D/3D tô màu theo cụm.
+- [x] Map nhãn `Cluster_Label` ngược lại vào primary dataset để phân tích đặc điểm từng cụm.
 
 ---
 
@@ -190,11 +190,11 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 **Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4)
 **Mục tiêu:** Xây dựng mô hình hồi quy để dự đoán biến mục tiêu liên tục: **`Revenue`** (Doanh thu).
 
-- [ ] **Feature Preparation:** Tạo các đặc trưng thời gian (Feature Engineering) phù hợp từ cột `Transaction_Date` như: Tháng, Ngày trong tuần và Cuối tuần.
-- [ ] **Train/Test Split:** Thực hiện chia tập dữ liệu. Đảm bảo các bước preprocessing không gây rò rỉ dữ liệu (data leakage).
-- [ ] **So sánh mô hình:** Huấn luyện và so sánh `LinearRegression` vs `DecisionTreeRegressor`.
-- [ ] Đánh giá mô hình bằng các chỉ số: **MSE, RMSE, R²**.
-- [ ] **Trực quan hóa:** Vẽ biểu đồ Actual vs Predicted hoặc Residual plot. Xác định mô hình hiệu năng tốt nhất.
+- [x] **Feature Preparation:** Tạo các đặc trưng thời gian (Feature Engineering) phù hợp từ cột `Transaction_Date` như: Tháng, Ngày trong tuần và Cuối tuần.
+- [x] **Train/Test Split:** Thực hiện chia tập dữ liệu. Đảm bảo các bước preprocessing không gây rò rỉ dữ liệu (data leakage).
+- [x] **So sánh mô hình:** Huấn luyện và so sánh `LinearRegression` vs `DecisionTreeRegressor`.
+- [x] Đánh giá mô hình bằng các chỉ số: **MSE, RMSE, R²**.
+- [x] **Trực quan hóa:** Vẽ biểu đồ Actual vs Predicted hoặc Residual plot. Xác định mô hình hiệu năng tốt nhất.
 
 ---
 
@@ -202,11 +202,11 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 **Đảm nhiệm:** Nguyễn Vương Quốc Tuấn (Vị trí 5)
 **Mục tiêu:** Xây dựng mô hình phân lớp dự đoán một biến mục tiêu rời rạc (được định nghĩa từ kết quả EDA).
 
-- [ ] **Feature Engineering:** Tạo biến, Binning (phân nhóm), Encoding và lựa chọn đặc trưng cho bài toán phân lớp.
-- [ ] **Class Imbalance:** Kiểm tra phân phối class. Nếu mất cân bằng, áp dụng `class_weight='balanced'` hoặc kỹ thuật sampling phù hợp, đảm bảo việc xử lý không gây Data Leakage.
-- [ ] **So sánh mô hình:** Huấn luyện và so sánh `LogisticRegression` vs `DecisionTreeClassifier`.
-- [ ] Đánh giá mô hình bằng: **Accuracy, Precision, Recall, F1-score**, và in ra toàn bộ `classification_report`.
-- [ ] **Trực quan hóa:** Vẽ Confusion Matrix dưới dạng Heatmap. Xác định mô hình hiệu năng tốt nhất.
+- [x] **Feature Engineering:** Tạo biến, Binning (phân nhóm), Encoding và lựa chọn đặc trưng cho bài toán phân lớp.
+- [x] **Class Imbalance:** Kiểm tra phân phối class. Nếu mất cân bằng, áp dụng `class_weight='balanced'` hoặc kỹ thuật sampling phù hợp, đảm bảo việc xử lý không gây Data Leakage.
+- [x] **So sánh mô hình:** Huấn luyện và so sánh `LogisticRegression` vs `DecisionTreeClassifier`.
+- [x] Đánh giá mô hình bằng: **Accuracy, Precision, Recall, F1-score**, và in ra toàn bộ `classification_report`.
+- [x] **Trực quan hóa:** Vẽ Confusion Matrix dưới dạng Heatmap. Xác định mô hình hiệu năng tốt nhất.
 
 ---
 

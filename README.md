@@ -214,9 +214,9 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 **Đảm nhiệm:** Hà Xuân Khoa (Vị trí 0)
 **Mục tiêu:** Xây dựng ứng dụng Web tương tác để người dùng sử dụng các mô hình Machine Learning đã huấn luyện.
 
-- [ ] Xây dựng Web UI bằng framework **Streamlit**.
-- [ ] Thiết kế giao diện nhập liệu (Input fields) và hiển thị kết quả dự đoán rõ ràng.
-- [ ] Thêm Tab Trực quan hóa (Optional): Hiển thị biểu đồ PCA hoặc K-Means cluster.
+- [x] Xây dựng Web UI bằng framework **Streamlit**.
+- [x] Thiết kế giao diện nhập liệu (Input fields) và hiển thị kết quả dự đoán rõ ràng.
+- [x] Thêm tab trực quan hóa PCA với phương sai giải thích.
 > 💡 *Technical Choice (Lựa chọn triển khai của nhóm):* Để Web UI chạy trực tiếp mà không cần train lại, các mô hình và preprocessor ở Task 1-4 sau khi huấn luyện xong sẽ được export (bằng `joblib` hoặc `pickle`) và lưu vào thư mục `src/models/`.
 
 ---
@@ -256,34 +256,57 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
                      Business Recommendations
 (Ghi chú: Các Task từ 1-4 chạy song song và độc lập. Mỗi Task tự chịu trách nhiệm tiền xử lý (Preprocessing) và Feature Engineering theo yêu cầu riêng, sử dụng chung nguồn đầu vào cleaned_dataset.csv và tuân thủ quy tắc chống Data Leakage).
 
-📁 Cấu trúc Thư mục Stage 2
-Plaintext
+📁 Cấu trúc thư mục hiện tại
+```text
 project/
 ├── data/
 │   ├── raw/
 │   ├── processed/
 │   └── final/
 │       ├── master_dataset.csv
-│       └── cleaned_dataset.csv         ← Dữ liệu đầu vào cho Stage 2
-│
-├── notebooks/                          ← Notebook của các Tasks tương ứng
-│   ├── 01_static_data.ipynb
+│       ├── cleaned_dataset.csv
+│       ├── customer_segments.csv
+│       └── transactions_with_clusters.csv
+├── notebooks/
+│   ├── 01 static data 1.ipynb
+│   ├── 01 static data 2.ipynb
 │   ├── 02_dynamic_data.ipynb
 │   ├── 03_data_integration.ipynb
 │   ├── 04_database.ipynb
 │   ├── 05_cleaning_eda.ipynb
-│   │
-│   ├── 06_pca.ipynb                    (Task 1 - Vị trí 1)
-│   ├── 07_kmeans.ipynb                 (Task 2 - Vị trí 2)
-│   ├── 08_regression.ipynb             (Task 3 - Vị trí 4)
-│   └── 09_classification.ipynb         (Task 4 - Vị trí 5)
-│── report/                             ← Báo cáo của nhóm
+│   ├── 06_pca.ipynb
+│   ├── 07_kmeans.ipynb
+│   ├── 08_regression.ipynb
+│   ├── 09_classification.ipynb
+│   └── figures/
+│       └── kmeans/
+├── report/
 ├── src/
-│   ├── crawler/
-│   ├── data_generation/
-│   ├── integration/
 │   ├── database/
-│   └── models/                         ← Chứa các model (.pkl) đã train xong
-│
-├── app.py                              (Task 5 - Vị trí 0)
-└── README.md
+│   ├── data_generation/
+│   ├── models/
+│   │   ├── best_classification_pipeline.joblib
+│   │   ├── customer_kmeans_bundle.joblib
+│   │   ├── pca_model.joblib
+│   │   └── regression_model.joblib
+│   └── segmentation/
+│       └── customer_kmeans.py
+├── app.py
+├── README.md
+├── README_TASK2.md
+├── requirements-task2.txt
+└── requirements.txt
+```
+
+### Chạy ứng dụng Task 5
+
+Từ thư mục gốc dự án, cài các thư viện triển khai và chạy:
+
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+Ứng dụng nạp các model đã train từ `src/models/`, không train lại khi khởi động. Các tab PCA, K-Means, Regression và Classification lần lượt dùng đúng đầu vào/tiền xử lý của các notebook tương ứng. Dữ liệu và kết quả hiện tại được mô phỏng, vì vậy dự đoán chỉ mang tính tham khảo.
+
+`requirements.txt` ghim scikit-learn 1.9.1 để khớp các model PCA, Regression và Classification hiện có; bundle K-Means được xuất bằng scikit-learn 1.8.0. Khi thay hoặc train lại model, cần đồng bộ phiên bản scikit-learn giữa model và môi trường triển khai.

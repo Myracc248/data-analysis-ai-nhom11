@@ -2,7 +2,6 @@
 from pathlib import Path
 from itertools import combinations
 import hashlib
-import json
 import platform
 import time
 import numpy as np
@@ -208,8 +207,8 @@ def predict_customers(bundle,features):
     return np.array([bundle['label_mapping'][int(x)] for x in raw])
 
 def export_results(root,df,customers,metrics,summary,winner,k,pre,pca,model,profile,mapping,names,reference,audit,sensitivity):
-    root=Path(root);data_dir=root/'data/final/task2';report_dir=root/'report/task2';model_dir=root/'src/models'
-    for p in [data_dir,report_dir,model_dir]:p.mkdir(parents=True,exist_ok=True)
+    root=Path(root);data_dir=root/'data/final';model_dir=root/'src/models'
+    for p in [data_dir,model_dir]:p.mkdir(parents=True,exist_ok=True)
     steps=[('preprocessor',pre)]
     if winner=='PCA':steps.append(('pca',pca))
     steps.append(('kmeans',model));pipeline=Pipeline(steps)
@@ -218,7 +217,13 @@ def export_results(root,df,customers,metrics,summary,winner,k,pre,pca,model,prof
             'selected_space':winner,'K':k,'source_sha256':audit['input_sha256'],
             'versions':{'python':platform.python_version(),'sklearn':sklearn.__version__,'numpy':np.__version__,'pandas':pd.__version__},
             'usage':'Input: one row per customer with NUMERIC columns; aggregate the same observation window. Use label_mapping after pipeline.predict.',
-            'limitations':'Synthetic, exploratory full-snapshot clustering; no independent generalization estimate.'}
+            'limitations':'Synthetic, exploratory full-snapshot clustering; no independent generalization estimate.',
+            'evaluation':{'k_search':metrics.to_dict(orient='records'),
+                          'comparison':summary.to_dict(orient='records'),
+                          'profiles':profile.reset_index().to_dict(orient='records'),
+                          'sensitivity':sensitivity, 'audit':audit,
+                          'pca_components':int(pca.n_components_),
+                          'pca_retained_variance':float(pca.explained_variance_ratio_.sum())}}
     model_path=model_dir/'customer_kmeans_bundle.joblib';joblib.dump(bundle,model_path)
     loaded=joblib.load(model_path)
     assert np.array_equal(predict_customers(loaded,customers),customers.Cluster_Label.to_numpy())
@@ -228,12 +233,5 @@ def export_results(root,df,customers,metrics,summary,winner,k,pre,pca,model,prof
     assert merged.Transaction_ID.tolist()==df.Transaction_ID.tolist()
     customers.to_csv(data_dir/'customer_segments.csv',index=False,encoding='utf-8-sig')
     merged.to_csv(data_dir/'transactions_with_clusters.csv',index=False,encoding='utf-8-sig')
-    metrics.to_csv(report_dir/'k_search_metrics.csv',index=False)
-    summary.to_csv(report_dir/'model_comparison.csv',index=False)
-    profile.to_csv(report_dir/'cluster_profiles.csv',encoding='utf-8-sig')
-    payload={'audit':audit,'reference_date':reference,'selected_space':winner,'K':k,
-             'pca_components':int(pca.n_components_),'retained_variance':float(pca.explained_variance_ratio_.sum()),
-             'sensitivity':sensitivity,'versions':bundle['versions']}
-    (report_dir/'run_summary.json').write_text(json.dumps(payload,ensure_ascii=False,indent=2,default=lambda x:x.item() if hasattr(x,'item') else str(x)))
     assert hashlib.sha256((root/'data/final/cleaned_dataset.csv').read_bytes()).hexdigest()==audit['input_sha256']
     return bundle,merged

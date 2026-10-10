@@ -221,7 +221,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 📊 Documentation & Business Recommendations (Báo cáo & Đề xuất)
+## 📊Documentation & Analytical Requirements (Report/Slides)
 Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
 
 - **[ ] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).

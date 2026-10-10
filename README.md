@@ -222,14 +222,13 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 ---
 
 ## 📊 Documentation & Business Recommendations (Báo cáo & Đề xuất)
-*Nhiệm vụ chung toàn nhóm sau khi hoàn thành Task 1-5.*
+Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
 
-- **[ ] Phân tích PCA:** Giải thích số component giữ lại, phương sai đạt được và đóng góp của PCA vào bài toán.
-- **[ ] Phân tích K-Means:** Đánh giá Elbow/Silhouette, giải thích ý nghĩa các cụm và sự khác biệt giữa có PCA/không PCA.
-- **[ ] Đánh giá Regression:** Tuyên bố rõ mô hình chiến thắng (*Best Regression Model: ...*) kèm chứng minh từ Metrics.
-- **[ ] Đánh giá Classification:** Tuyên bố rõ mô hình chiến thắng (*Best Classification Model: ...*) kèm phân tích dựa trên Precision, Recall, Accuracy và F1-score.
-- **[ ] Giao diện UI:** Bổ sung hình ảnh (screenshots) của app hoạt động thực tế.
-- **[ ] Business Recommendations:** Dựa vào insight từ EDA và Model, đưa ra **2–3 đề xuất kinh doanh thực tế, dựa trên dữ liệu** thay vì lý thuyết sáo rỗng.
+- **[ ] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
+- **[ ] So sánh mô hình:** So sánh hai mô hình Regression và hai mô hình Classification bằng các metrics; nêu rõ mô hình chiến thắng theo kết quả đánh giá. **Phụ trách:** Nguyễn Huỳnh Thanh Tuấn (Regression), Nguyễn Vương Quốc Tuấn (Classification).
+- **[ ] UI & giá trị kinh doanh:** Bổ sung ảnh chụp giao diện web hoạt động. **Hà Xuân Khoa** phụ trách UI; **Phan Chí Thanh** tổng hợp **2–3 đề xuất dựa trên dữ liệu** gắn với dự đoán của mô hình cuối cùng, cả nhóm đóng góp insight và minh chứng.
+
+Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn quan hệ nhân quả chỉ từ tương quan và cần nêu rõ giới hạn của dữ liệu mô phỏng.
 
 ---
 

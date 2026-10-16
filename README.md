@@ -303,7 +303,7 @@ Từ thư mục gốc dự án, cài các thư viện triển khai và chạy:
 
 ```bash
 pip install -r requirements.txt
-streamlit run app.py
+python -m streamlit run app.py
 ```
 
 Ứng dụng nạp các model đã train từ `src/models/`, không train lại khi khởi động. Các tab PCA, K-Means, Regression và Classification lần lượt dùng đúng đầu vào/tiền xử lý của các notebook tương ứng. Dữ liệu và kết quả hiện tại được mô phỏng, vì vậy dự đoán chỉ mang tính tham khảo.

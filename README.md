@@ -133,125 +133,179 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ---
 
-# 🟩 STAGE 2 — MACHINE LEARNING
-Stage 2 sử dụng dữ liệu đã được làm sạch và chuẩn bị từ Stage 1 để xây dựng, đánh giá và triển khai các mô hình Machine Learning.
+# 🟩 STAGE 2 — MACHINE LEARNING & DEPLOYMENT
 
-> **⚠️ QUY TẮC QUAN TRỌNG CHO STAGE 2:** 
-> Tất cả các mô hình và transformer sau khi huấn luyện thành công **BẮT BUỘC** phải được export thành file `.pkl` (bằng `joblib` hoặc `pickle`). Các file này phải lưu trong thư mục `src/models/` để Web UI tải trực tiếp lên dự đoán, không train lại mô hình trên UI.
+## 1. 📌 Tổng quan Stage 2
+Stage 2 sử dụng dữ liệu đã được làm sạch và tiền xử lý từ Stage 1 để xây dựng, đánh giá và triển khai các mô hình Machine Learning. 
 
-## ⚙️ Bước 6: Feature Engineering & Preprocessing
-**Đảm nhiệm:** Phan Chí Thanh & Cả nhóm
-- [ ] Kéo dữ liệu sạch từ CSDL.
-- [ ] Xử lý biến `datetime` và tạo các đặc trưng thời gian nếu cần.
-- [ ] Tạo các biến mới (Feature Engineering / Binning).
-- [ ] Encoding các biến categorical và Scaling biến numerical.
-- [ ] Chia dữ liệu thành Train / Test.
-- [ ] Lưu các preprocessing transformer vào `src/models/`.
+Dữ liệu đầu vào chính là tập dataset dùng chung cho toàn bộ nhóm:
+> 📁 `data/final/cleaned_dataset.csv`
 
-## 🧩 Bước 7: Unsupervised Learning — PCA
-**Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
-- [ ] Áp dụng PCA để giảm số chiều dữ liệu.
-- [ ] Tính Cumulative Explained Variance Ratio và chọn số lượng component đạt 85%–95% variance.
-- [ ] Trực quan hóa dữ liệu PCA (Scatter plot 2D/3D).
-- [ ] **Lưu PCA transformer thành `src/models/pca_transformer.pkl`.**
+**Luồng hình thành dữ liệu:**
+Raw Data ➔ Static + Dynamic Data ➔ Data Integration ➔ Master Dataset ➔ Database ➔ Cleaning & EDA ➔ **`cleaned_dataset.csv`**
 
-## 👥 Bước 8: Customer Segmentation — K-Means
-**Đảm nhiệm:** Nguyễn Tuấn Duy (Vị trí 2)
-- [ ] Sử dụng Elbow Method (WCSS) và Silhouette Score để xác định số cụm.
-- [ ] So sánh clustering trên Original Features và PCA Features.
-- [ ] Phân tích đặc điểm của từng cluster (nhóm khách hàng nổi bật).
-- [ ] Gắn `Cluster_Label` vào dataset.
-- [ ] **Lưu K-Means model thành `src/models/kmeans_model.pkl`.**
-
-## 📈 Bước 9: Supervised Learning — Regression (Target: Revenue)
-**Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4)
-- [ ] Train 02 mô hình: Linear Regression & Decision Tree Regressor.
-- [ ] Đánh giá bằng MSE, RMSE, R² Score.
-- [ ] Vẽ Actual vs Predicted và Residual Plot.
-- [ ] Phân tích Feature Importance.
-- [ ] **Lưu mô hình tốt nhất thành `src/models/regression_model.pkl`.**
-
-## 🏷️ Bước 10: Supervised Learning — Classification
-**Đảm nhiệm:** Nguyễn Vương Quốc Tuấn (Vị trí 5)
-- [ ] Train 02 mô hình: Logistic Regression & Decision Tree Classifier.
-- [ ] Kiểm tra phân bố class và xử lý Imbalance (SMOTE, class_weight).
-- [ ] Đánh giá bằng Confusion Matrix, Accuracy, Precision, Recall, F1-Score.
-- [ ] **Lưu mô hình tốt nhất thành `src/models/classification_model.pkl`.**
-
-## 🖥️ Bước 11: Model Deployment & Web UI
-**Đảm nhiệm:** Hà Xuân Khoa (Nhóm trưởng)
-- Xây dựng Web UI bằng Streamlit.
-- **Luồng xử lý:** Nhận User Input → Preprocessing → Load Model từ `src/models/` → Predict → Visualize.
-
-## 📊 Bước 12: Model Comparison & Final Insights
-**Đảm nhiệm:** Cả nhóm
-- [ ] So sánh hiệu năng, phân tích ưu/nhược điểm các mô hình.
-- [ ] Đưa ra 2–3 kiến nghị kinh doanh thực tế.
-- [ ] Hoàn thiện báo cáo cuối cùng (.docx).
+Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước Feature Engineering và Preprocessing cần thiết cho bài toán tương ứng, đồng thời tuân thủ nguyên tắc tránh Data Leakage. Cuối cùng, nhóm sẽ tổng hợp kết quả, so sánh hiệu năng và đưa ra các đề xuất kinh doanh thực tế (Business Recommendations).
 
 ---
 
-## 📁 Cấu trúc Thư mục (Project Structure)
+## 2. 👥 Phân công Stage 2
+
+| Vị trí | Thành viên | Nhiệm vụ chính (Stage 2) |
+| :--- | :--- | :--- |
+| **Vị trí 0** | **Hà Xuân Khoa** | Task 5 — Web UI + Final Integration |
+| **Vị trí 1** | **Vương Quốc Tiến** | Task 1 — PCA |
+| **Vị trí 2** | **Nguyễn Tuấn Duy** | Task 2 — K-Means |
+| **Vị trí 3** | **Phan Chí Thanh** | Final Integration, Insight Review & Support |
+| **Vị trí 4** | **Nguyễn Huỳnh Thanh Tuấn** | Task 3 — Regression |
+| **Vị trí 5** | **Nguyễn Vương Quốc Tuấn** | Task 4 — Classification |
+
+---
+
+## 🧩 Task 1: Unsupervised Learning — PCA
+**Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
+**Mục tiêu:** Áp dụng phân tích thành phần chính (PCA) để giảm số chiều dữ liệu nhưng vẫn giữ lại phần lớn lượng thông tin.
+
+- [x] Chọn các đặc trưng dạng số (numerical features) phù hợp.
+- [x] **Feature Scaling:** Bắt buộc chuẩn hóa dữ liệu trước khi chạy PCA bằng `StandardScaler` hoặc `MinMaxScaler`.
+- [x] Áp dụng PCA và tính toán tỷ lệ phương sai giải thích tích lũy (Cumulative Explained Variance).
+- [x] Chọn số lượng component tối thiểu để giữ lại **85%–95%** phương sai.
+- [x] **Trực quan hóa:** Vẽ biểu đồ Explained Variance và Scatter plot 2D/3D cho không gian PCA.
+- [x] Giải thích lý do chọn số lượng component và phân tích kết quả PCA.
+
+---
+
+## 👥 Task 2: Customer Segmentation — K-Means
+**Đảm nhiệm:** Nguyễn Tuấn Duy & Phan Chí Thanh (Vị trí 2 & 3)
+**Mục tiêu:** Áp dụng thuật toán gom cụm K-Means để nhận diện các nhóm khách hàng/sản phẩm/giao dịch nổi bật.
+
+- [x] **Feature Preparation:** Encode các biến Categorical và Scale các biến Numerical phù hợp cho thuật toán đo khoảng cách.
+- [x] Xác định số cụm tối ưu ($K$) bằng cả 2 phương pháp: **Elbow Method (WCSS)** và **Silhouette Score**.
+- [x] **So sánh mô hình:** Chạy và so sánh kết quả K-Means trên tập dữ liệu đã qua PCA vs tập dữ liệu gốc chưa qua PCA (non-PCA).
+- [x] **Trực quan hóa:** Vẽ Scatter plot 2D/3D tô màu theo cụm.
+- [x] Map nhãn `Cluster_Label` ngược lại vào primary dataset để phân tích đặc điểm từng cụm.
+
+---
+
+## 📈 Task 3: Supervised Learning — Regression
+**Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4)
+**Mục tiêu:** Xây dựng mô hình hồi quy để dự đoán biến mục tiêu liên tục: **`Revenue`** (Doanh thu).
+
+- [x] **Feature Preparation:** Tạo các đặc trưng thời gian (Feature Engineering) phù hợp từ cột `Transaction_Date` như: Tháng, Ngày trong tuần và Cuối tuần.
+- [x] **Train/Test Split:** Thực hiện chia tập dữ liệu. Đảm bảo các bước preprocessing không gây rò rỉ dữ liệu (data leakage).
+- [x] **So sánh mô hình:** Huấn luyện và so sánh `LinearRegression` vs `DecisionTreeRegressor`.
+- [x] Đánh giá mô hình bằng các chỉ số: **MSE, RMSE, R²**.
+- [x] **Trực quan hóa:** Vẽ biểu đồ Actual vs Predicted hoặc Residual plot. Xác định mô hình hiệu năng tốt nhất.
+
+---
+
+## 🏷️ Task 4: Supervised Learning — Classification
+**Đảm nhiệm:** Nguyễn Vương Quốc Tuấn (Vị trí 5)
+**Mục tiêu:** Xây dựng mô hình phân lớp dự đoán một biến mục tiêu rời rạc (được định nghĩa từ kết quả EDA).
+
+- [x] **Feature Engineering:** Tạo biến, Binning (phân nhóm), Encoding và lựa chọn đặc trưng cho bài toán phân lớp.
+- [x] **Class Imbalance:** Kiểm tra phân phối class. Nếu mất cân bằng, áp dụng `class_weight='balanced'` hoặc kỹ thuật sampling phù hợp, đảm bảo việc xử lý không gây Data Leakage.
+- [x] **So sánh mô hình:** Huấn luyện và so sánh `LogisticRegression` vs `DecisionTreeClassifier`.
+- [x] Đánh giá mô hình bằng: **Accuracy, Precision, Recall, F1-score**, và in ra toàn bộ `classification_report`.
+- [x] **Trực quan hóa:** Vẽ Confusion Matrix dưới dạng Heatmap. Xác định mô hình hiệu năng tốt nhất.
+
+---
+
+## 🖥️ Task 5: Web UI & Model Deployment
+**Đảm nhiệm:** Hà Xuân Khoa (Vị trí 0)
+**Mục tiêu:** Xây dựng ứng dụng Web tương tác để người dùng sử dụng các mô hình Machine Learning đã huấn luyện.
+
+- [x] Xây dựng Web UI bằng framework **Streamlit**.
+- [x] Thiết kế giao diện nhập liệu (Input fields) và hiển thị kết quả dự đoán rõ ràng.
+- [x] Thêm tab trực quan hóa PCA với phương sai giải thích.
+> 💡 *Technical Choice (Lựa chọn triển khai của nhóm):* Để Web UI chạy trực tiếp mà không cần train lại, các mô hình và preprocessor ở Task 1-4 sau khi huấn luyện xong sẽ được export (bằng `joblib` hoặc `pickle`) và lưu vào thư mục `src/models/`.
+
+---
+
+## 📊Documentation & Analytical Requirements (Report/Slides)
+Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
+
+- **[x] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
+- **[x] So sánh mô hình:** So sánh hai mô hình Regression và hai mô hình Classification bằng các metrics; nêu rõ mô hình chiến thắng theo kết quả đánh giá. **Phụ trách:** Nguyễn Huỳnh Thanh Tuấn (Regression), Nguyễn Vương Quốc Tuấn (Classification).
+- **[x] UI & giá trị kinh doanh:** Bổ sung ảnh chụp giao diện web hoạt động. **Hà Xuân Khoa** phụ trách UI; **Phan Chí Thanh** tổng hợp **2–3 đề xuất dựa trên dữ liệu** gắn với dự đoán của mô hình cuối cùng, cả nhóm đóng góp insight và minh chứng.
+
+Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn quan hệ nhân quả chỉ từ tương quan và cần nêu rõ giới hạn của dữ liệu mô phỏng.
+
+---
+
+## 🔄 Stage 2 Workflow
 
 ```text
-data-analysis-ai-nhom11/
-│
+                  cleaned_dataset.csv
+                         │
+        ┌────────────────┼────────────────┐
+        │                │                │               │
+        ▼                ▼                ▼               ▼
+     Task 1            Task 2           Task 3          Task 4
+      PCA             K-Means         Regression    Classification
+        │                │                │               │
+        └────────────────┴───────┬────────┴───────────────┘
+                                 │
+                                 ▼
+                          Task 5 — Web UI
+                                 │
+                                 ▼
+                   Documentation & Final Insights
+                                 │
+                                 ▼
+                     Business Recommendations
+(Ghi chú: Các Task từ 1-4 chạy song song và độc lập. Mỗi Task tự chịu trách nhiệm tiền xử lý (Preprocessing) và Feature Engineering theo yêu cầu riêng, sử dụng chung nguồn đầu vào cleaned_dataset.csv và tuân thủ quy tắc chống Data Leakage).
+
+📁 Cấu trúc thư mục hiện tại
+```text
+project/
 ├── data/
-│   ├── raw/                    ← Dữ liệu gốc nguyên thủy (tesco-grocery-uk.csv, tiki.csv)
-│   ├── processed/              ← Dữ liệu trung gian đã chuẩn hóa Schema/VND và Dynamic Data
-│   └── final/                  ← Dataset master_dataset.csv đã tích hợp sẵn sàng cho EDA
-│
-├── notebooks/                  ← Toàn bộ quá trình thực hiện của từng bước
-│   ├── 01_static_data.ipynb
+│   ├── raw/
+│   ├── processed/
+│   └── final/
+│       ├── master_dataset.csv
+│       ├── cleaned_dataset.csv
+│       ├── customer_segments.csv
+│       └── transactions_with_clusters.csv
+├── notebooks/
+│   ├── 01 static data 1.ipynb
+│   ├── 01 static data 2.ipynb
 │   ├── 02_dynamic_data.ipynb
 │   ├── 03_data_integration.ipynb
 │   ├── 04_database.ipynb
 │   ├── 05_cleaning_eda.ipynb
-│   └── 06_machine_learning.ipynb
-│
+│   ├── 06_pca.ipynb
+│   ├── 07_kmeans.ipynb
+│   ├── 08_regression.ipynb
+│   ├── 09_classification.ipynb
+│   └── figures/
+│       └── kmeans/
+├── report/
 ├── src/
-│   ├── data_generation/        ← Code script hỗ trợ giả lập dữ liệu (Duy)
-│   │   ├── standardize_currency.py
-│   │   ├── generate_review_bank.py
-│   │   └── generate_dynamic_data.py
-│   ├── database/               ← Script thao tác với MongoDB / SQL (Thanh)
-│   └── models/                 ← Chứa các model và transformer đã train (.pkl)
-│       ├── pca_transformer.pkl
-│       ├── kmeans_model.pkl
-│       ├── regression_model.pkl
-│       └── classification_model.pkl
-│
-├── app.py                      ← Streamlit Web UI (Load trực tiếp từ src/models/)
+│   ├── database/
+│   ├── data_generation/
+│   ├── models/
+│   │   ├── best_classification_pipeline.joblib
+│   │   ├── customer_kmeans_bundle.joblib
+│   │   ├── pca_model.joblib
+│   │   └── regression_model.joblib
+│   └── segmentation/
+│       └── customer_kmeans.py
+├── app.py
 ├── README.md
-└── report/
-    └── Bao_cao_nhom11.docx     ← Báo cáo cuối
+├── README_TASK2.md
+├── requirements-task2.txt
+└── requirements.txt
+```
 
-    RAW DATA
-   │
-   ▼
-data/raw/
-   │
-   ▼
-STATIC / DYNAMIC PROCESSING
-   │
-   ▼
-data/processed/
-   │
-   ▼
-STEP 3 — DATA INTEGRATION (pd.concat -> pd.merge)
-   │
-   ▼
-data/final/master_dataset.csv
-   │
-   ├──────────────► DATABASE
-   │
-   └──────────────► CLEANING + EDA
-                          │
-                          ▼
-                   FEATURE ENGINEERING
-                          │
-                          ▼
-                     MACHINE LEARNING
-                          │
-                          ▼
-                       WEB UI
+### Chạy ứng dụng Task 5
+
+Từ thư mục gốc dự án, cài các thư viện triển khai và chạy:
+
+```bash
+pip install -r requirements.txt
+python -m streamlit run app.py
+```
+
+Ứng dụng nạp các model đã train từ `src/models/`, không train lại khi khởi động. Các tab PCA, K-Means, Regression và Classification lần lượt dùng đúng đầu vào/tiền xử lý của các notebook tương ứng. Dữ liệu và kết quả hiện tại được mô phỏng, vì vậy dự đoán chỉ mang tính tham khảo.
+
+`requirements.txt` ghim scikit-learn 1.9.1 để khớp các model PCA, Regression và Classification hiện có; bundle K-Means được xuất bằng scikit-learn 1.8.0. Khi thay hoặc train lại model, cần đồng bộ phiên bản scikit-learn giữa model và môi trường triển khai.

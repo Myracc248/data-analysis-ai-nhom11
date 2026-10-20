@@ -175,7 +175,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 ---
 
 ## 👥 Task 2: Customer Segmentation — K-Means
-**Đảm nhiệm:** Nguyễn Tuấn Duy (Vị trí 2)
+**Đảm nhiệm:** Nguyễn Tuấn Duy & Phan Chí Thanh (Vị trí 2 & 3)
 **Mục tiêu:** Áp dụng thuật toán gom cụm K-Means để nhận diện các nhóm khách hàng/sản phẩm/giao dịch nổi bật.
 
 - [x] **Feature Preparation:** Encode các biến Categorical và Scale các biến Numerical phù hợp cho thuật toán đo khoảng cách.
@@ -224,9 +224,9 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 ## 📊Documentation & Analytical Requirements (Report/Slides)
 Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
 
-- **[ ] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
-- **[ ] So sánh mô hình:** So sánh hai mô hình Regression và hai mô hình Classification bằng các metrics; nêu rõ mô hình chiến thắng theo kết quả đánh giá. **Phụ trách:** Nguyễn Huỳnh Thanh Tuấn (Regression), Nguyễn Vương Quốc Tuấn (Classification).
-- **[ ] UI & giá trị kinh doanh:** Bổ sung ảnh chụp giao diện web hoạt động. **Hà Xuân Khoa** phụ trách UI; **Phan Chí Thanh** tổng hợp **2–3 đề xuất dựa trên dữ liệu** gắn với dự đoán của mô hình cuối cùng, cả nhóm đóng góp insight và minh chứng.
+- **[x] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
+- **[x] So sánh mô hình:** So sánh hai mô hình Regression và hai mô hình Classification bằng các metrics; nêu rõ mô hình chiến thắng theo kết quả đánh giá. **Phụ trách:** Nguyễn Huỳnh Thanh Tuấn (Regression), Nguyễn Vương Quốc Tuấn (Classification).
+- **[x] UI & giá trị kinh doanh:** Bổ sung ảnh chụp giao diện web hoạt động. **Hà Xuân Khoa** phụ trách UI; **Phan Chí Thanh** tổng hợp **2–3 đề xuất dựa trên dữ liệu** gắn với dự đoán của mô hình cuối cùng, cả nhóm đóng góp insight và minh chứng.
 
 Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn quan hệ nhân quả chỉ từ tương quan và cần nêu rõ giới hạn của dữ liệu mô phỏng.
 

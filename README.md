@@ -1,6 +1,6 @@
-# 📊 Phân tích Dữ liệu Hệ thống Bán lẻ & Thương mại Điện tử
+#  Phân tích Dữ liệu Hệ thống Bán lẻ & Thương mại Điện tử
 
-## 1. 📌 Tổng quan Dự án
+## 1.  Tổng quan Dự án
 
 Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trung vào việc thu thập, tích hợp, làm sạch, lưu trữ, phân tích khám phá dữ liệu (EDA) và xây dựng các mô hình Machine Learning trên dữ liệu bán lẻ & thương mại điện tử.
 
@@ -23,7 +23,7 @@ Phân tích các yếu tố có liên hệ với doanh thu và mức độ hài 
 
 ---
 
-## 2. 👥 Danh sách Thành viên & Phân công
+## 2.  Danh sách Thành viên & Phân công
 
 | Vị trí | Thành viên | Nhiệm vụ chính |
 | :--- | :--- | :--- |
@@ -36,9 +36,9 @@ Phân tích các yếu tố có liên hệ với doanh thu và mức độ hài 
 
 ---
 
-# 🟦 STAGE 1 — DATA PREPARATION & ANALYSIS
+#  STAGE 1 — DATA PREPARATION & ANALYSIS
 
-## 🗂️ Bước 1: Thu thập Dữ liệu Tĩnh (Static Data)
+##  Bước 1: Thu thập Dữ liệu Tĩnh (Static Data)
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 
 ### Yêu cầu hành động
@@ -50,7 +50,7 @@ Phân tích các yếu tố có liên hệ với doanh thu và mức độ hài 
 - [x] Lưu dữ liệu nguồn vào `data/raw/`.
 - [x] Lưu dữ liệu sau chuẩn hóa vào `data/processed/`.
 
-### 📌 Schema Static Data chuẩn (Hợp đồng dữ liệu)
+###  Schema Static Data chuẩn (Hợp đồng dữ liệu)
 Các nguồn Static bắt buộc phải được chuẩn hóa theo bộ thuộc tính cốt lõi sau trước khi mang đi Integration:
 | Tên cột | Mô tả |
 | :--- | :--- |
@@ -63,7 +63,7 @@ Các nguồn Static bắt buộc phải được chuẩn hóa theo bộ thuộc 
 
 ---
 
-## ⚙️ Bước 2: Sinh Dữ liệu Động (Dynamic Data)
+##  Bước 2: Sinh Dữ liệu Động (Dynamic Data)
 **Đảm nhiệm:** Nguyễn Tuấn Duy (Vị trí 2)
 
 ### Yêu cầu hành động
@@ -78,20 +78,20 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 ---
 
 ## Bước 3: Tích hợp Dữ liệu (Data Integration)
-[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#-b%C6%B0%E1%BB%9Bc-3-t%C3%ADch-h%E1%BB%A3p-d%E1%BB%AF-li%E1%BB%87u-data-integration)
+[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#-b%C6%B0%E1%BB%9Bc-3-t%C3%ADch-h%E1%BB%A3p-d%E1%BB%AF-li%E1%BB%87u-data-integration)
 **Đảm nhiệm:** Hà Xuân Khoa (Nhóm trưởng)
 
 > **Nguyên tắc cốt lõi:** Bước này CHỈ thực hiện đồng bộ cấu trúc (Schema Alignment) và gộp bảng. **TUYỆT ĐỐI KHÔNG** tự ý xóa dữ liệu (`dropna`) hay điền khuyết (`fillna`) để giảm Missing Values.
 
 ### 3.1 Vertical Concatenation — `pd.concat()`
-[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#31-vertical-concatenation--pdconcat)
+[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#31-vertical-concatenation--pdconcat)
 - [x] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
 - [x] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
 - [x] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
 - [x] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.
 
 ### 3.2 Horizontal Merging — `pd.merge()`
-[↩️ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#32-horizontal-merging--pdmerge)
+[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#32-horizontal-merging--pdmerge)
 - [x] Merge bảng `Unified Static Master` với `dynamic_transactions.csv`.
 - [x] Sử dụng **LEFT JOIN** với bảng gốc bên trái là Dynamic Data để bảo toàn 100% giao dịch thực tế.
 - [x] Kiểm tra số lượng giao dịch trước và sau Merge (đảm bảo không bị nhân bản dòng).
@@ -99,7 +99,7 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ---
 
-## 🗄️ Bước 4: Lưu trữ Cơ sở dữ liệu (Modern Data Storage)
+##  Bước 4: Lưu trữ Cơ sở dữ liệu (Modern Data Storage)
 **Đảm nhiệm:** Phan Chí Thanh (Vị trí 3)
 
 ### Yêu cầu hành động
@@ -111,7 +111,7 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ---
 
-## 🧹 Bước 5: Làm sạch Dữ liệu & EDA
+##  Bước 5: Làm sạch Dữ liệu & EDA
 **Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4) & Nguyễn Vương Quốc Tuấn (Vị trí 5)
 
 ### 5.1 Data Cleaning & Missing Value Strategy
@@ -133,13 +133,13 @@ Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập d�
 
 ---
 
-# 🟩 STAGE 2 — MACHINE LEARNING & DEPLOYMENT
+#  STAGE 2 — MACHINE LEARNING & DEPLOYMENT
 
-## 1. 📌 Tổng quan Stage 2
+## 1.  Tổng quan Stage 2
 Stage 2 sử dụng dữ liệu đã được làm sạch và tiền xử lý từ Stage 1 để xây dựng, đánh giá và triển khai các mô hình Machine Learning. 
 
 Dữ liệu đầu vào chính là tập dataset dùng chung cho toàn bộ nhóm:
-> 📁 `data/final/cleaned_dataset.csv`
+>  `data/final/cleaned_dataset.csv`
 
 **Luồng hình thành dữ liệu:**
 Raw Data ➔ Static + Dynamic Data ➔ Data Integration ➔ Master Dataset ➔ Database ➔ Cleaning & EDA ➔ **`cleaned_dataset.csv`**
@@ -148,7 +148,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 2. 👥 Phân công Stage 2
+## 2.  Phân công Stage 2
 
 | Vị trí | Thành viên | Nhiệm vụ chính (Stage 2) |
 | :--- | :--- | :--- |
@@ -161,7 +161,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 🧩 Task 1: Unsupervised Learning — PCA
+##  Task 1: Unsupervised Learning — PCA
 **Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
 **Mục tiêu:** Áp dụng phân tích thành phần chính (PCA) để giảm số chiều dữ liệu nhưng vẫn giữ lại phần lớn lượng thông tin.
 
@@ -174,7 +174,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 👥 Task 2: Customer Segmentation — K-Means
+## Task 2: Customer Segmentation — K-Means
 **Đảm nhiệm:** Nguyễn Tuấn Duy & Phan Chí Thanh (Vị trí 2 & 3)
 **Mục tiêu:** Áp dụng thuật toán gom cụm K-Means để nhận diện các nhóm khách hàng/sản phẩm/giao dịch nổi bật.
 
@@ -186,7 +186,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 📈 Task 3: Supervised Learning — Regression
+##  Task 3: Supervised Learning — Regression
 **Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4)
 **Mục tiêu:** Xây dựng mô hình hồi quy để dự đoán biến mục tiêu liên tục: **`Revenue`** (Doanh thu).
 
@@ -198,7 +198,7 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 🏷️ Task 4: Supervised Learning — Classification
+## Task 4: Supervised Learning — Classification
 **Đảm nhiệm:** Nguyễn Vương Quốc Tuấn (Vị trí 5)
 **Mục tiêu:** Xây dựng mô hình phân lớp dự đoán một biến mục tiêu rời rạc (được định nghĩa từ kết quả EDA).
 
@@ -210,18 +210,18 @@ Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước
 
 ---
 
-## 🖥️ Task 5: Web UI & Model Deployment
+##  Task 5: Web UI & Model Deployment
 **Đảm nhiệm:** Hà Xuân Khoa (Vị trí 0)
 **Mục tiêu:** Xây dựng ứng dụng Web tương tác để người dùng sử dụng các mô hình Machine Learning đã huấn luyện.
 
 - [x] Xây dựng Web UI bằng framework **Streamlit**.
 - [x] Thiết kế giao diện nhập liệu (Input fields) và hiển thị kết quả dự đoán rõ ràng.
 - [x] Thêm tab trực quan hóa PCA với phương sai giải thích.
-> 💡 *Technical Choice (Lựa chọn triển khai của nhóm):* Để Web UI chạy trực tiếp mà không cần train lại, các mô hình và preprocessor ở Task 1-4 sau khi huấn luyện xong sẽ được export (bằng `joblib` hoặc `pickle`) và lưu vào thư mục `src/models/`.
+>  *Technical Choice (Lựa chọn triển khai của nhóm):* Để Web UI chạy trực tiếp mà không cần train lại, các mô hình và preprocessor ở Task 1-4 sau khi huấn luyện xong sẽ được export (bằng `joblib` hoặc `pickle`) và lưu vào thư mục `src/models/`.
 
 ---
 
-## 📊Documentation & Analytical Requirements (Report/Slides)
+## Documentation & Analytical Requirements (Report/Slides)
 Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
 
 - **[x] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
@@ -232,7 +232,7 @@ Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn 
 
 ---
 
-## 🔄 Stage 2 Workflow
+##  Stage 2 Workflow
 
 ```text
                   cleaned_dataset.csv
@@ -255,7 +255,7 @@ Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn 
                      Business Recommendations
 (Ghi chú: Các Task từ 1-4 chạy song song và độc lập. Mỗi Task tự chịu trách nhiệm tiền xử lý (Preprocessing) và Feature Engineering theo yêu cầu riêng, sử dụng chung nguồn đầu vào cleaned_dataset.csv và tuân thủ quy tắc chống Data Leakage).
 
-📁 Cấu trúc thư mục hiện tại
+ Cấu trúc thư mục hiện tại
 ```text
 project/
 ├── data/

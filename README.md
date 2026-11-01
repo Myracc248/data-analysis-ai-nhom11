@@ -291,15 +291,18 @@ project/
 │   └── segmentation/
 │       └── customer_kmeans.py
 ├── app.py
+├── Dockerfile
+├── docker-compose.yml
+├── .dockerignore
 ├── README.md
 ├── README_TASK2.md
 ├── requirements-task2.txt
 └── requirements.txt
 ```
 
-### Chạy ứng dụng Task 5
+### Chạy ứng dụng Task 5 trực tiếp trên Python (không dùng Docker)
 
-Từ thư mục gốc dự án, cài các thư viện triển khai và chạy:
+Chỉ dùng cách này nếu muốn chạy app trực tiếp trên máy. Từ thư mục gốc dự án:
 
 ```bash
 pip install -r requirements.txt
@@ -308,4 +311,26 @@ python -m streamlit run app.py
 
 Ứng dụng nạp các model đã train từ `src/models/`, không train lại khi khởi động. Các tab PCA, K-Means, Regression và Classification lần lượt dùng đúng đầu vào/tiền xử lý của các notebook tương ứng. Dữ liệu và kết quả hiện tại được mô phỏng, vì vậy dự đoán chỉ mang tính tham khảo.
 
-`requirements.txt` ghim scikit-learn 1.9.1 để khớp các model PCA, Regression và Classification hiện có; bundle K-Means được xuất bằng scikit-learn 1.8.0. Khi thay hoặc train lại model, cần đồng bộ phiên bản scikit-learn giữa model và môi trường triển khai.
+`requirements.txt` ghim scikit-learn 1.9.1 để khớp các model PCA, Regression và Classification. Bundle K-Means hiện được xuất bằng scikit-learn 1.8.0 nên có thể phát cảnh báo `InconsistentVersionWarning` khi nạp, dù kiểm tra suy luận trong container vẫn chạy được. Khi cập nhật hoặc train lại model, nên xuất lại các artifact bằng cùng phiên bản scikit-learn đã ghim.
+
+### Triển khai ứng dụng bằng Docker Compose
+
+Cài Docker Desktop (Windows/macOS) hoặc Docker Engine và Docker Compose plugin (Linux), mở Docker Desktop và chờ Docker Engine chạy. Không cần chạy `pip install -r requirements.txt` hoặc `streamlit run app.py` trên máy host: Docker tự cài dependencies trong image khi build.
+
+Mở terminal tại thư mục gốc của dự án. Lần đầu chạy, hoặc sau khi thay đổi code/dependencies, dùng:
+
+```bash
+docker compose up --build -d
+```
+
+Đợi lệnh hoàn tất, rồi mở `http://localhost:8501` trên trình duyệt. Compose tạo hai container trên mạng nội bộ `retail_network`: `app` chạy Streamlit và `mongodb` chạy MongoDB. Cổng Streamlit chỉ được bind vào máy local; MongoDB không công khai cổng ra máy host và lưu dữ liệu trong volume `mongodb_data`.
+
+Những lần demo tiếp theo, nếu không đổi code hoặc dependencies, chỉ cần mở Docker Desktop và chạy:
+
+```bash
+docker compose up -d
+```
+
+Để xem trạng thái container, dùng `docker compose ps`. Dừng ứng dụng bằng `docker compose down`; volume MongoDB vẫn được giữ lại. Chỉ dùng `docker compose down -v` nếu muốn xóa cả dữ liệu MongoDB đã lưu.
+
+Image ứng dụng chỉ chứa mã app, các model `.joblib` và `data/final/cleaned_dataset.csv` cần cho biểu đồ PCA; notebook, báo cáo, môi trường ảo và các dữ liệu không cần thiết được loại khỏi build context. Hiện tại các model suy luận được nạp trực tiếp từ artifact, app chưa truy vấn MongoDB trong luồng dự đoán.

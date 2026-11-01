@@ -1,0 +1,12 @@
+.git
+.venv
+**/__pycache__/
+notebooks/
+report/
+data/raw/
+data/processed/
+data/final/*
+!data/final/cleaned_dataset.csv
+requirements-task2.txt
+README*
+Grading Rubric.xlsx

@@ -336,7 +336,7 @@ def render_pca(model_bundle) -> None:
         transformed = model_bundle["scaler"].transform(
             model_bundle["imputer"].transform(features)
         )
-        components = model_bundle["pca"].transform(transformed)[0]
+        components = model_bundle["pca"].transform(transformed)[0, :model_bundle["n_components"]]
         component_names = [f"PC{i + 1}" for i in range(len(components))]
 
         st.subheader("1. Tọa độ thành phần chính của input")
@@ -346,7 +346,7 @@ def render_pca(model_bundle) -> None:
             width="stretch",
         )
 
-        st.subheader("2. Explained variance của model đã train")
+        st.subheader("2. Phương sai của các thành phần PCA được giữ lại")
         st.metric(
             "Phương sai tích lũy giữ lại khi train",
             f"{model_bundle['cumulative_explained_variance']:.2%}",
@@ -354,7 +354,7 @@ def render_pca(model_bundle) -> None:
         variance = pd.DataFrame(
             {
                 "Thành phần": component_names,
-                "Phương sai giải thích": model_bundle["explained_variance_ratio"],
+                "Phương sai giải thích": model_bundle["explained_variance_ratio"][:len(components)],
             }
         ).set_index("Thành phần")
         st.bar_chart(variance)

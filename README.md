@@ -1,336 +1,83 @@
-#  Phân tích Dữ liệu Hệ thống Bán lẻ & Thương mại Điện tử
+# Phân tích dữ liệu bán lẻ và thương mại điện tử · Nhóm 11
 
-## 1.  Tổng quan Dự án
+Đồ án cuối kỳ môn **Nhập môn Phân tích Dữ liệu & AI**, Trường Đại học Công nghiệp TP.HCM. Nhóm kết hợp danh mục sản phẩm Tesco UK và Tiki Việt Nam với 10.000 giao dịch mô phỏng để nghiên cứu ba câu hỏi: giá và số lượng liên hệ thế nào với doanh thu, khách hàng có thể được phân nhóm theo hành vi mua sắm ra sao, và thông tin giao dịch có giúp nhận biết đánh giá 4–5 sao hay không?
 
-Dự án thuộc môn học Nhập môn Phân tích Dữ liệu & AI, tập trung vào việc thu thập, tích hợp, làm sạch, lưu trữ, phân tích khám phá dữ liệu (EDA) và xây dựng các mô hình Machine Learning trên dữ liệu bán lẻ & thương mại điện tử.
+## Chạy bản demo bằng Docker
 
-Dữ liệu được xây dựng từ nhiều nguồn Static và Dynamic nhằm mô phỏng một hệ thống bán lẻ có cả:
-- Thông tin sản phẩm.
-- Thông tin giao dịch.
-- Thông tin khách hàng.
-- Đánh giá và phản hồi của khách hàng.
+Mở Docker Desktop, sau đó mở terminal tại thư mục chứa `docker-compose.yml`. Lần đầu chạy hoặc sau khi cập nhật mã nguồn, dùng:
 
-### 1.1. Mục tiêu phân tích
-Phân tích các yếu tố có liên hệ với doanh thu và mức độ hài lòng của khách hàng đối với các mặt hàng bán lẻ & thương mại điện tử, từ đó xác định các xu hướng và nhóm khách hàng có hành vi mua sắm nổi bật.
-
-- **Đối tượng phục vụ:** Ban giám đốc / Giám đốc sản phẩm của hệ thống bán lẻ để hỗ trợ phân tích hành vi khách hàng, chiến lược giá và nhập hàng.
-- **Thước đo thành công:** Khám phá được ít nhất 3 tập khách hàng hoặc 3 yếu tố có mối liên hệ đáng chú ý với hành vi mua hàng, doanh thu hoặc mức độ hài lòng.
-
-### 1.2. Biến mục tiêu (Target Variables)
-- **Biến mục tiêu chính:** `Rating` (mức độ hài lòng của khách hàng).
-- **Biến mục tiêu cho Regression:** `Revenue` (doanh thu giao dịch).
-- **Biến mục tiêu cho Classification:** Sẽ được xác định sau EDA và Feature Engineering.
-
----
-
-## 2.  Danh sách Thành viên & Phân công
-
-| Vị trí | Thành viên | Nhiệm vụ chính |
-| :--- | :--- | :--- |
-| **Vị trí 0** | **Hà Xuân Khoa** | Nhóm trưởng, quản lý tiến độ và tích hợp dữ liệu (Step 3). |
-| **Vị trí 1** | **Vương Quốc Tiến** | Thu thập và chuẩn hóa Static Data. |
-| **Vị trí 2** | **Nguyễn Tuấn Duy** | Sinh Dynamic Data & Script đồng bộ quy đổi tỷ giá. |
-| **Vị trí 3** | **Phan Chí Thanh** | Xây dựng và quản lý Modern Database. |
-| **Vị trí 4** | **Nguyễn Huỳnh Thanh Tuấn** | Data Cleaning và xử lý dữ liệu nâng cao. |
-| **Vị trí 5** | **Nguyễn Vương Quốc Tuấn** | EDA và Visualization. |
-
----
-
-#  STAGE 1 — DATA PREPARATION & ANALYSIS
-
-##  Bước 1: Thu thập Dữ liệu Tĩnh (Static Data)
-**Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
-
-### Yêu cầu hành động
-- [x] Thu thập dữ liệu từ ít nhất 02 nguồn khác nhau (Tesco UK và Tiki VN).
-- [x] Mỗi nguồn dữ liệu có tối thiểu 300 records.
-- [x] Chuẩn hóa tên cột.
-- [x] Chuẩn hóa kiểu dữ liệu.
-- [x] Hỗ trợ quy đổi tiền tệ sang VND để đồng nhất (Script của Vị trí 2 hỗ trợ).
-- [x] Lưu dữ liệu nguồn vào `data/raw/`.
-- [x] Lưu dữ liệu sau chuẩn hóa vào `data/processed/`.
-
-###  Schema Static Data chuẩn (Hợp đồng dữ liệu)
-Các nguồn Static bắt buộc phải được chuẩn hóa theo bộ thuộc tính cốt lõi sau trước khi mang đi Integration:
-| Tên cột | Mô tả |
-| :--- | :--- |
-| **Product_ID** | Khóa chính (Primary Key) của sản phẩm. |
-| **Product_Name** | Tên sản phẩm. |
-| **Category** | Danh mục sản phẩm. |
-| **Brand** | Thương hiệu sản phẩm. |
-| **Original_Price** | Giá gốc của sản phẩm. |
-| **Discount_Price** | Giá sau khi áp dụng khuyến mãi. |
-
----
-
-##  Bước 2: Sinh Dữ liệu Động (Dynamic Data)
-**Đảm nhiệm:** Nguyễn Tuấn Duy (Vị trí 2)
-
-### Yêu cầu hành động
-Dùng thư viện Python (`Faker`, `NumPy`) và LLM/Ollama để giả lập dữ liệu giao dịch:
-- [x] Lấy danh sách `Product_ID` hợp lệ từ dữ liệu Static đã chuẩn hóa.
-- [x] Sinh thông tin khách hàng (Customer_ID, Gender, Age, City) và thời gian giao dịch.
-- [x] Tạo `Quantity` và tính toán `Revenue` hợp lý (`Revenue = Quantity * Discount_Price`).
-- [x] Tạo `Rating` (từ 1–5).
-- [x] Dùng Ollama sinh `Customer_Review` tương ứng với `Rating`.
-- [x] Lưu Dynamic Data vào `data/processed/dynamic_transactions.csv`.
-
----
-
-## Bước 3: Tích hợp Dữ liệu (Data Integration)
-[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#-b%C6%B0%E1%BB%9Bc-3-t%C3%ADch-h%E1%BB%A3p-d%E1%BB%AF-li%E1%BB%87u-data-integration)
-**Đảm nhiệm:** Hà Xuân Khoa (Nhóm trưởng)
-
-> **Nguyên tắc cốt lõi:** Bước này CHỈ thực hiện đồng bộ cấu trúc (Schema Alignment) và gộp bảng. **TUYỆT ĐỐI KHÔNG** tự ý xóa dữ liệu (`dropna`) hay điền khuyết (`fillna`) để giảm Missing Values.
-
-### 3.1 Vertical Concatenation — `pd.concat()`
-[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#31-vertical-concatenation--pdconcat)
-- [x] Đọc 02 nguồn Static (`tesco_products_vnd.csv` và `vietnamese_tiki_products_backpacks_suitcases.csv` từ thư mục `processed`).
-- [x] Kiểm tra tên cột và kiểu dữ liệu đảm bảo khớp Schema 6 cột.
-- [x] Sử dụng `pd.concat()` để nối dữ liệu theo chiều dọc tạo thành `Unified Static Master Table`.
-- [x] Kiểm tra tính duy nhất của `Product_ID`, đảm bảo không có ID trùng lặp từ 2 nguồn.
-
-### 3.2 Horizontal Merging — `pd.merge()`
-[ Xem mục lục](https://github.com/Myracc248/data-analysis-ai-nhom11/blob/main/README.md#32-horizontal-merging--pdmerge)
-- [x] Merge bảng `Unified Static Master` với `dynamic_transactions.csv`.
-- [x] Sử dụng **LEFT JOIN** với bảng gốc bên trái là Dynamic Data để bảo toàn 100% giao dịch thực tế.
-- [x] Kiểm tra số lượng giao dịch trước và sau Merge (đảm bảo không bị nhân bản dòng).
-- [x] Xuất dataset tích hợp cuối cùng vào `data/final/master_dataset.csv`.
-
----
-
-##  Bước 4: Lưu trữ Cơ sở dữ liệu (Modern Data Storage)
-**Đảm nhiệm:** Phan Chí Thanh (Vị trí 3)
-
-### Yêu cầu hành động
-- [x] Lựa chọn tối thiểu 02 hệ quản trị/công nghệ Database (MongoDB Atlas, Vector DB, hoặc SQL).
-- [x] Thiết kế cấu trúc lưu trữ phù hợp.
-- [x] Viết script nạp `master_dataset.csv` vào Database.
-- [x] Viết script kết nối và truy xuất dữ liệu từ CSDL về Python cho EDA.
-- [x] Giải thích lý do lựa chọn mô hình lưu trữ trong báo cáo.
-
----
-
-##  Bước 5: Làm sạch Dữ liệu & EDA
-**Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4) & Nguyễn Vương Quốc Tuấn (Vị trí 5)
-
-### 5.1 Data Cleaning & Missing Value Strategy
-- [x] Kiểm tra kích thước, cấu trúc và kiểu dữ liệu.
-- [x] Đánh giá số lượng và tỷ lệ Missing Values của từng cột.
-- [x] Trực quan hóa Missing Values bằng thư viện `missingno`.
-- [x] Phân tích cơ chế thiếu dữ liệu (MCAR / MAR / MNAR).
-- [x] Lựa chọn phương pháp xử lý Imputation phù hợp (Mean, Median, Mode, Unknown). Giải thích rõ lý do nếu dùng `dropna()`.
-- [x] So sánh phân phối dữ liệu Before / After Imputation.
-- [x] Phát hiện Outliers bằng IQR / Z-score và xử lý (Drop/Clip) tùy đặc điểm biến.
-
-### 5.2 Exploratory Data Analysis (EDA)
-- [x] Phân tích Univariate (Thống kê mô tả, phân phối).
-- [x] Phân tích Bivariate/Multivariate và ma trận tương quan (Correlation Heatmap).
-- [x] Vẽ tối thiểu **05 biểu đồ** bằng Matplotlib / Seaborn (đầy đủ Title, X/Y labels).
-- [x] Viết nhận xét/insight giải thích dưới mỗi biểu đồ. Phân biệt rõ Correlation và Causation.
-- [x] Xác định các yếu tố nổi bật liên quan đến Revenue, Rating, và Customer Segmentation.
-- [x] Đề xuất Feature cho Stage 2.
-
----
-
-#  STAGE 2 — MACHINE LEARNING & DEPLOYMENT
-
-## 1.  Tổng quan Stage 2
-Stage 2 sử dụng dữ liệu đã được làm sạch và tiền xử lý từ Stage 1 để xây dựng, đánh giá và triển khai các mô hình Machine Learning. 
-
-Dữ liệu đầu vào chính là tập dataset dùng chung cho toàn bộ nhóm:
->  `data/final/cleaned_dataset.csv`
-
-**Luồng hình thành dữ liệu:**
-Raw Data ➔ Static + Dynamic Data ➔ Data Integration ➔ Master Dataset ➔ Database ➔ Cleaning & EDA ➔ **`cleaned_dataset.csv`**
-
-Stage 2 bao gồm 5 Task chính. Mỗi Task sẽ tự thực hiện các bước Feature Engineering và Preprocessing cần thiết cho bài toán tương ứng, đồng thời tuân thủ nguyên tắc tránh Data Leakage. Cuối cùng, nhóm sẽ tổng hợp kết quả, so sánh hiệu năng và đưa ra các đề xuất kinh doanh thực tế (Business Recommendations).
-
----
-
-## 2.  Phân công Stage 2
-
-| Vị trí | Thành viên | Nhiệm vụ chính (Stage 2) |
-| :--- | :--- | :--- |
-| **Vị trí 0** | **Hà Xuân Khoa** | Task 5 — Web UI + Final Integration |
-| **Vị trí 1** | **Vương Quốc Tiến** | Task 1 — PCA |
-| **Vị trí 2** | **Nguyễn Tuấn Duy** | Task 2 — K-Means |
-| **Vị trí 3** | **Phan Chí Thanh** | Final Integration, Insight Review & Support |
-| **Vị trí 4** | **Nguyễn Huỳnh Thanh Tuấn** | Task 3 — Regression |
-| **Vị trí 5** | **Nguyễn Vương Quốc Tuấn** | Task 4 — Classification |
-
----
-
-##  Task 1: Unsupervised Learning — PCA
-**Đảm nhiệm:** Vương Quốc Tiến (Vị trí 1)
-**Mục tiêu:** Áp dụng phân tích thành phần chính (PCA) để giảm số chiều dữ liệu nhưng vẫn giữ lại phần lớn lượng thông tin.
-
-- [x] Chọn các đặc trưng dạng số (numerical features) phù hợp.
-- [x] **Feature Scaling:** Bắt buộc chuẩn hóa dữ liệu trước khi chạy PCA bằng `StandardScaler` hoặc `MinMaxScaler`.
-- [x] Áp dụng PCA và tính toán tỷ lệ phương sai giải thích tích lũy (Cumulative Explained Variance).
-- [x] Chọn số lượng component tối thiểu để giữ lại **85%–95%** phương sai.
-- [x] **Trực quan hóa:** Vẽ biểu đồ Explained Variance và Scatter plot 2D/3D cho không gian PCA.
-- [x] Giải thích lý do chọn số lượng component và phân tích kết quả PCA.
-
----
-
-## Task 2: Customer Segmentation — K-Means
-**Đảm nhiệm:** Nguyễn Tuấn Duy & Phan Chí Thanh (Vị trí 2 & 3)
-**Mục tiêu:** Áp dụng thuật toán gom cụm K-Means để nhận diện các nhóm khách hàng/sản phẩm/giao dịch nổi bật.
-
-- [x] **Feature Preparation:** Encode các biến Categorical và Scale các biến Numerical phù hợp cho thuật toán đo khoảng cách.
-- [x] Xác định số cụm tối ưu ($K$) bằng cả 2 phương pháp: **Elbow Method (WCSS)** và **Silhouette Score**.
-- [x] **So sánh mô hình:** Chạy và so sánh kết quả K-Means trên tập dữ liệu đã qua PCA vs tập dữ liệu gốc chưa qua PCA (non-PCA).
-- [x] **Trực quan hóa:** Vẽ Scatter plot 2D/3D tô màu theo cụm.
-- [x] Map nhãn `Cluster_Label` ngược lại vào primary dataset để phân tích đặc điểm từng cụm.
-
----
-
-##  Task 3: Supervised Learning — Regression
-**Đảm nhiệm:** Nguyễn Huỳnh Thanh Tuấn (Vị trí 4)
-**Mục tiêu:** Xây dựng mô hình hồi quy để dự đoán biến mục tiêu liên tục: **`Revenue`** (Doanh thu).
-
-- [x] **Feature Preparation:** Tạo các đặc trưng thời gian (Feature Engineering) phù hợp từ cột `Transaction_Date` như: Tháng, Ngày trong tuần và Cuối tuần.
-- [x] **Train/Test Split:** Thực hiện chia tập dữ liệu. Đảm bảo các bước preprocessing không gây rò rỉ dữ liệu (data leakage).
-- [x] **So sánh mô hình:** Huấn luyện và so sánh `LinearRegression` vs `DecisionTreeRegressor`.
-- [x] Đánh giá mô hình bằng các chỉ số: **MSE, RMSE, R²**.
-- [x] **Trực quan hóa:** Vẽ biểu đồ Actual vs Predicted hoặc Residual plot. Xác định mô hình hiệu năng tốt nhất.
-
----
-
-## Task 4: Supervised Learning — Classification
-**Đảm nhiệm:** Nguyễn Vương Quốc Tuấn (Vị trí 5)
-**Mục tiêu:** Xây dựng mô hình phân lớp dự đoán một biến mục tiêu rời rạc (được định nghĩa từ kết quả EDA).
-
-- [x] **Feature Engineering:** Tạo biến, Binning (phân nhóm), Encoding và lựa chọn đặc trưng cho bài toán phân lớp.
-- [x] **Class Imbalance:** Kiểm tra phân phối class. Nếu mất cân bằng, áp dụng `class_weight='balanced'` hoặc kỹ thuật sampling phù hợp, đảm bảo việc xử lý không gây Data Leakage.
-- [x] **So sánh mô hình:** Huấn luyện và so sánh `LogisticRegression` vs `DecisionTreeClassifier`.
-- [x] Đánh giá mô hình bằng: **Accuracy, Precision, Recall, F1-score**, và in ra toàn bộ `classification_report`.
-- [x] **Trực quan hóa:** Vẽ Confusion Matrix dưới dạng Heatmap. Xác định mô hình hiệu năng tốt nhất.
-
----
-
-##  Task 5: Web UI & Model Deployment
-**Đảm nhiệm:** Hà Xuân Khoa (Vị trí 0)
-**Mục tiêu:** Xây dựng ứng dụng Web tương tác để người dùng sử dụng các mô hình Machine Learning đã huấn luyện.
-
-- [x] Xây dựng Web UI bằng framework **Streamlit**.
-- [x] Thiết kế giao diện nhập liệu (Input fields) và hiển thị kết quả dự đoán rõ ràng.
-- [x] Thêm tab trực quan hóa PCA với phương sai giải thích.
->  *Technical Choice (Lựa chọn triển khai của nhóm):* Để Web UI chạy trực tiếp mà không cần train lại, các mô hình và preprocessor ở Task 1-4 sau khi huấn luyện xong sẽ được export (bằng `joblib` hoặc `pickle`) và lưu vào thư mục `src/models/`.
-
----
-
-## Documentation & Analytical Requirements (Report/Slides)
-Các mục dưới đây là yêu cầu cho báo cáo/slides cuối nhóm, kèm người phụ trách nội dung và minh chứng.
-
-- [x] PCA & K-Means:** Giải thích số lượng components và clusters được chọn; so sánh hiệu quả phân cụm khi dùng và không dùng PCA. **Phụ trách:** Vương Quốc Tiến (PCA), Nguyễn Tuấn Duy (K-Means).
-- [x] So sánh mô hình:** So sánh hai mô hình Regression và hai mô hình Classification bằng các metrics; nêu rõ mô hình chiến thắng theo kết quả đánh giá. **Phụ trách:** Nguyễn Huỳnh Thanh Tuấn (Regression), Nguyễn Vương Quốc Tuấn (Classification).
-- [x] UI & giá trị kinh doanh:** Bổ sung ảnh chụp giao diện web hoạt động. **Hà Xuân Khoa** phụ trách UI; **Phan Chí Thanh** tổng hợp **2–3 đề xuất dựa trên dữ liệu** gắn với dự đoán của mô hình cuối cùng, cả nhóm đóng góp insight và minh chứng.
-
-Chỉ báo cáo kết quả thực nghiệm có minh chứng; không suy diễn quan hệ nhân quả chỉ từ tương quan và cần nêu rõ giới hạn của dữ liệu mô phỏng.
-
----
-
-##  Stage 2 Workflow
-
-```text
-                  cleaned_dataset.csv
-                         │
-        ┌────────────────┼────────────────┐
-        │                │                │               │
-        ▼                ▼                ▼               ▼
-     Task 1            Task 2           Task 3          Task 4
-      PCA             K-Means         Regression    Classification
-        │                │                │               │
-        └────────────────┴───────┬────────┴───────────────┘
-                                 │
-                                 ▼
-                          Task 5 — Web UI
-                                 │
-                                 ▼
-                   Documentation & Final Insights
-                                 │
-                                 ▼
-                     Business Recommendations
-(Ghi chú: Các Task từ 1-4 chạy song song và độc lập. Mỗi Task tự chịu trách nhiệm tiền xử lý (Preprocessing) và Feature Engineering theo yêu cầu riêng, sử dụng chung nguồn đầu vào cleaned_dataset.csv và tuân thủ quy tắc chống Data Leakage).
-
- Cấu trúc thư mục hiện tại
-```text
-project/
-├── data/
-│   ├── raw/
-│   ├── processed/
-│   └── final/
-│       ├── master_dataset.csv
-│       ├── cleaned_dataset.csv
-│       ├── customer_segments.csv
-│       └── transactions_with_clusters.csv
-├── notebooks/
-│   ├── 01 static data 1.ipynb
-│   ├── 01 static data 2.ipynb
-│   ├── 02_dynamic_data.ipynb
-│   ├── 03_data_integration.ipynb
-│   ├── 04_database.ipynb
-│   ├── 05_cleaning_eda.ipynb
-│   ├── 06_pca.ipynb
-│   ├── 07_kmeans.ipynb
-│   ├── 08_regression.ipynb
-│   ├── 09_classification.ipynb
-│   └── figures/
-│       └── kmeans/
-├── report/
-├── src/
-│   ├── database/
-│   ├── data_generation/
-│   ├── models/
-│   │   ├── best_classification_pipeline.joblib
-│   │   ├── customer_kmeans_bundle.joblib
-│   │   ├── pca_model.joblib
-│   │   └── regression_model.joblib
-│   └── segmentation/
-│       └── customer_kmeans.py
-├── app.py
-├── Dockerfile
-├── docker-compose.yml
-├── .dockerignore
-├── README.md
-├── README_TASK2.md
-├── requirements-task2.txt
-└── requirements.txt
+```powershell
+docker compose up -d --build
+docker compose ps
 ```
 
-### Chạy ứng dụng Task 5 trực tiếp trên Python (không dùng Docker)
+Mở **[http://localhost:8502](http://localhost:8502)**. Trong cấu hình `127.0.0.1:8502:8501`, trình duyệt trên máy dùng cổng **8502** và Streamlit bên trong container dùng cổng **8501**. Để kiểm tra cổng đang được công bố, chạy `docker compose port app 8501`.
 
-Chỉ dùng cách này nếu muốn chạy app trực tiếp trên máy. Từ thư mục gốc dự án:
+| Thao tác | Lệnh |
+|---|---|
+| Mở lại bản đã build để demo | `docker compose up -d` |
+| Xem log của Streamlit | `docker compose logs --tail=50 app` |
+| Dừng ứng dụng, giữ dữ liệu trong volume | `docker compose down` |
 
-```bash
-pip install -r requirements.txt
+Compose chạy hai dịch vụ `app` và `mongodb` trên mạng `retail_network`. Dịch vụ MongoDB dùng volume `mongodb_data`. Streamlit nạp bốn mô hình đã huấn luyện từ [src/models/](src/models/) và dùng CSV cho phần trực quan PCA. Thao tác dự đoán trên giao diện dùng các mô hình đã lưu. Việc ghi và đọc lại dữ liệu từ hai cơ sở dữ liệu được minh họa riêng trong notebook 04.
+
+<details>
+<summary>Chạy riêng Streamlit bằng Python</summary>
+
+Từ thư mục gốc, dùng môi trường Python 3.13 và chạy:
+
+```powershell
+python -m pip install -r requirements.txt
 python -m streamlit run app.py
 ```
 
-Ứng dụng nạp các model đã train từ `src/models/`, không train lại khi khởi động. Các tab PCA, K-Means, Regression và Classification lần lượt dùng đúng đầu vào/tiền xử lý của các notebook tương ứng. Dữ liệu và kết quả hiện tại được mô phỏng, vì vậy dự đoán chỉ mang tính tham khảo.
+Mở địa chỉ Streamlit in trong terminal. File `requirements.txt` dành cho ứng dụng và ghim scikit-learn 1.9.1. Bundle K-Means được xuất với phiên bản 1.8.0 nên có thể xuất hiện cảnh báo khác phiên bản khi nạp.
 
-`requirements.txt` ghim scikit-learn 1.9.1 để khớp các model PCA, Regression và Classification. Bundle K-Means hiện được xuất bằng scikit-learn 1.8.0 nên có thể phát cảnh báo `InconsistentVersionWarning` khi nạp, dù kiểm tra suy luận trong container vẫn chạy được. Khi cập nhật hoặc train lại model, nên xuất lại các artifact bằng cùng phiên bản scikit-learn đã ghim.
+</details>
 
-### Triển khai ứng dụng bằng Docker Compose
+## Thành viên và phân công
 
-Cài Docker Desktop (Windows/macOS) hoặc Docker Engine và Docker Compose plugin (Linux), mở Docker Desktop và chờ Docker Engine chạy. Không cần chạy `pip install -r requirements.txt` hoặc `streamlit run app.py` trên máy host: Docker tự cài dependencies trong image khi build.
+Cột **Tiêu chí phụ trách** ghi theo barem cuối kỳ. Hai cột còn lại ghi phần triển khai và phối hợp của từng thành viên ở mỗi giai đoạn. Trọng số là tỷ trọng của tiêu chí trong điểm đồ án.
 
-Mở terminal tại thư mục gốc của dự án. Lần đầu chạy, hoặc sau khi thay đổi code/dependencies, dùng:
+| Thành viên | Tiêu chí phụ trách | Stage 1 · Dữ liệu và EDA | Stage 2 · Mô hình, ứng dụng và báo cáo |
+|---|---|---|---|
+| Vương Quốc Tiến | Thu thập và tích hợp dữ liệu · 20% | Thu thập, chuẩn hóa danh mục Tesco và Tiki để tích hợp | Thực hiện PCA cấp giao dịch, chọn số thành phần và phân tích phương sai |
+| Nguyễn Huỳnh Thanh Tuấn | Advanced EDA · 20% | Làm sạch dữ liệu, đánh giá giá trị thiếu, phân phối và ngoại lệ | So sánh hai mô hình hồi quy doanh thu |
+| Nguyễn Vương Quốc Tuấn | Visual & Insights · 15% | Vẽ biểu đồ EDA, giải thích kết quả và liên hệ với lựa chọn đặc trưng | Phân lớp đánh giá cao, so sánh Logistic Regression và Decision Tree |
+| Nguyễn Tuấn Duy | Machine Learning · 20% | Viết script quy đổi tiền tệ, sinh giao dịch và nhận xét mô phỏng | Phụ trách K-Means, chọn số cụm, đối chứng PCA và gắn nhãn khách hàng |
+| Hà Xuân Khoa | Docker và giao diện · 15% | Trưởng nhóm, điều phối tiến độ, nối dữ liệu và kiểm tra kết quả tích hợp | Tích hợp bốn mô hình vào Streamlit, triển khai ứng dụng bằng Docker Compose |
+| Phan Chí Thanh | Báo cáo và phân tích kinh doanh · 10% | Lưu và truy xuất dữ liệu bằng SQL Server và MongoDB Atlas | Hỗ trợ Nguyễn Tuấn Duy triển khai K-Means. Hỗ trợ tích hợp, rà soát kết quả và tổng hợp khuyến nghị kinh doanh cho báo cáo, slide |
 
-```bash
-docker compose up --build -d
-```
+## Stage 1 · Từ danh mục sản phẩm đến dữ liệu phân tích
 
-Đợi lệnh hoàn tất, rồi mở `http://localhost:8501` trên trình duyệt. Compose tạo hai container trên mạng nội bộ `retail_network`: `app` chạy Streamlit và `mongodb` chạy MongoDB. Cổng Streamlit chỉ được bind vào máy local; MongoDB không công khai cổng ra máy host và lưu dữ liệu trong volume `mongodb_data`.
+| Bước | Công việc và kết quả | Mã nguồn |
+|---|---|---|
+| 01 · Dữ liệu tĩnh | Đọc hai danh mục sản phẩm, chuẩn hóa các trường dùng chung và giữ các thuộc tính riêng của từng nguồn. | [Nguồn 1](notebooks/01%20static%20data%201.ipynb) · [Nguồn 2](notebooks/01%20static%20data%202.ipynb) |
+| 02 · Dữ liệu động | Quy đổi giá về VND, sinh khách hàng và giao dịch, gán số sao và lấy nhận xét tương ứng từ ngân hàng mẫu. Doanh thu ban đầu được tính bằng `Quantity × Unit_Price_VND`. | [Notebook 02](notebooks/02_dynamic_data.ipynb) · [Script sinh dữ liệu](src/data_generation/) |
+| 03 · Tích hợp | Dùng `pd.concat` nối dọc hai danh mục. Dùng `pd.merge` với giao dịch làm bảng trái và `Product_ID` làm khóa để giữ đủ 10.000 giao dịch. Kết quả là `data/final/master_dataset.csv`. | [Notebook 03](notebooks/03_data_integration.ipynb) |
+| 04 · Lưu trữ | Ghi dữ liệu tích hợp vào SQL Server và MongoDB Atlas. Kết quả đọc ngược từ mỗi hệ về DataFrame đều có **10.000 dòng × 39 cột**. | [Notebook 04](notebooks/04_database.ipynb) · [Script cơ sở dữ liệu](src/database/) |
+| 05 · Làm sạch và EDA | Khảo sát tỷ lệ thiếu theo cột, trực quan bằng missingno, so sánh phân phối trước/sau điền và phát hiện ngoại lệ bằng IQR. Histogram, boxplot, heatmap, scatter và biểu đồ cột giúp đối chiếu giá, doanh thu và nhóm hàng. Đầu ra dùng cho Stage 2 là `data/final/cleaned_dataset.csv`. | [Notebook 05](notebooks/05_cleaning_eda.ipynb) |
 
-Những lần demo tiếp theo, nếu không đổi code hoặc dependencies, chỉ cần mở Docker Desktop và chạy:
+**Cách đọc số lượng sản phẩm trong notebook 03.** Danh mục hợp nhất có **6.559** mã duy nhất. Có **3** mã thiếu giá bán nên **6.556** mã đủ điều kiện để sinh giao dịch. Quá trình lấy mẫu tạo ra 10.000 giao dịch của **1.988** khách hàng, trong đó có **5.099** mã sản phẩm thực sự xuất hiện. Sau phép nối trái vẫn có 10.000 dòng và 5.099 mã sản phẩm xuất hiện.
 
-```bash
-docker compose up -d
-```
+## Stage 2 · Kết quả và chức năng trên Streamlit
 
-Để xem trạng thái container, dùng `docker compose ps`. Dừng ứng dụng bằng `docker compose down`; volume MongoDB vẫn được giữ lại. Chỉ dùng `docker compose down -v` nếu muốn xóa cả dữ liệu MongoDB đã lưu.
+| Tab | Kết quả thực nghiệm | Notebook |
+|---|---|---|
+| PCA | Từ 11 đặc trưng cấp giao dịch, mô hình giữ **9 thành phần** và **91,44%** phương sai. Bảng tọa độ và biểu đồ phương sai của mô hình đã chọn hiển thị PC1–PC9. | [06 · PCA](notebooks/06_pca.ipynb) |
+| K-Means | Nhóm 1.988 khách theo thời gian từ lần mua gần nhất, tần suất, tổng chi tiêu và tỷ lệ giảm giá trung bình. Nhóm chọn **K = 3** sau khi xét Elbow và Silhouette. Với cùng không gian đánh giá, bốn đặc trưng gốc cho Silhouette **0,2786**. Phương án giảm còn ba PC giữ **89,93%** phương sai và đạt **0,2779**. Ứng dụng dùng mô hình bốn đặc trưng gốc. | [07 · K-Means](notebooks/07_kmeans.ipynb) |
+| Regression | Ước lượng `Revenue` bằng VND. **Linear Regression** đạt R² **0,8095**, RMSE khoảng **2.442.313 VND**. Decision Tree Regressor đạt R² **0,6526**, RMSE khoảng **3.298.003 VND**. | [08 · Regression](notebooks/08_regression.ipynb) |
+| Classification | Nhãn `Target = 1` khi `Rating >= 4`, còn lại là lớp 0. Trên 2.000 giao dịch kiểm tra, **Decision Tree** đạt Macro-F1 **0,4960**, Accuracy **0,5080**. Logistic Regression đạt Macro-F1 **0,4733**, Accuracy **0,4745**. Nhóm chọn Decision Tree theo Macro-F1. | [09 · Classification](notebooks/09_classification.ipynb) |
 
-Image ứng dụng chỉ chứa mã app, các model `.joblib` và `data/final/cleaned_dataset.csv` cần cho biểu đồ PCA; notebook, báo cáo, môi trường ảo và các dữ liệu không cần thiết được loại khỏi build context. Hiện tại các model suy luận được nạp trực tiếp từ artifact, app chưa truy vấn MongoDB trong luồng dự đoán.
+PCA ở tab đầu mô tả **giao dịch**. Thử nghiệm ba PC trong K-Means mô tả **khách hàng** sau khi tổng hợp nhiều giao dịch theo `Customer_ID`. Kết quả phân cụm được lưu ở hai cấp: `customer_segments.csv` có một dòng cho mỗi khách hàng và `transactions_with_clusters.csv` gắn nhãn cụm của khách vào từng giao dịch.
+
+## Diễn giải kết quả
+
+Doanh thu mô phỏng được tính trực tiếp từ số lượng và đơn giá, nên R² của hồi quy chủ yếu phản ánh công thức sinh dữ liệu. Ba cụm khách có thể dùng để thiết kế thử nghiệm ưu đãi theo tần suất và mức chi tiêu, nhưng Silhouette khoảng 0,28 cho thấy các cụm còn chồng lấn. Số sao được sinh mô phỏng, và Accuracy của bộ phân lớp được chọn (50,8%) thấp hơn cách luôn đoán lớp phổ biến trên tập kiểm tra (1.190/2.000 = 59,5%). Khi demo, nên diễn giải kết quả phân lớp trong giới hạn đó.
+
+## Tài liệu và đầu ra
+
+- [Báo cáo cuối kỳ](report/) trình bày phương pháp, kết quả đánh giá, giao diện và khuyến nghị kinh doanh.
+- [Dữ liệu đầu ra](data/final/) gồm dữ liệu tích hợp, dữ liệu đã làm sạch, hồ sơ cụm và giao dịch gắn nhãn.
+- [Biểu đồ phân cụm](notebooks/figures/kmeans/) gồm Elbow, Silhouette, phương sai PCA và phân bố khách hàng theo cụm.
+- [Mã giao diện](app.py) và [cấu hình Docker Compose](docker-compose.yml) là hai điểm bắt đầu để xem cách ứng dụng nạp mô hình và chạy bản demo.
